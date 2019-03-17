@@ -16,8 +16,6 @@ fi
 # SLUG=${GITHUB_REPOSITORY#*/}
 # echo "ℹ︎ SLUG is $SLUG"
 
-# echo $GITHUB_WORKSPACE
-
-echo "Hello World"
+echo GITHUB_WORKSPACE
 
 # echo "✓ Plugin deployed!"
