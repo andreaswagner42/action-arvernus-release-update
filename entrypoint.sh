@@ -13,9 +13,11 @@ set -eo
 # 	exit 1
 # fi
 
-SLUG=${GITHUB_REPOSITORY#*/}
-echo "ℹ︎ SLUG is $SLUG"
+# SLUG=${GITHUB_REPOSITORY#*/}
+# echo "ℹ︎ SLUG is $SLUG"
 
-echo $GITHUB_WORKSPACE
+# echo $GITHUB_WORKSPACE
+
+echo "Hello World"
 
 # echo "✓ Plugin deployed!"
