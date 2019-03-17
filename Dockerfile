@@ -10,7 +10,7 @@ LABEL version="1.0.0"
 LABEL repository="http://github.com/Arvernus/actions-arvernus-release-update"
 
 RUN apt-get update \
-    && apt-get install -y httpie rsync \
+    && apt-get install -y httpie rsync zip \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
