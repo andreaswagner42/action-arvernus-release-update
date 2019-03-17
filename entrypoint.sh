@@ -16,6 +16,9 @@ fi
 # SLUG=${GITHUB_REPOSITORY#*/}
 # echo "ℹ︎ SLUG is $SLUG"
 
-echo $GITHUB_WORKSPACE
+for entry in "$GITHUB_WORKSPACE"/*
+do
+  echo "$entry"
+done
 
 # echo "✓ Plugin deployed!"
