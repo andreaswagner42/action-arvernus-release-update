@@ -29,6 +29,7 @@ rsync -r \
 --exclude ".vscode/" \
 --exclude ".git/" \
 --exclude ".github/" \
+--exclude "blocks/" \
 "$GITHUB_WORKSPACE/" \
 "$PACKAGE_NAME"/ \
 --delete
