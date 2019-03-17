@@ -5,4 +5,5 @@ workflow "Testing" {
 
 action "WordPress Plugin Deploy" {
   uses = "./"
+  secrets = ["SECRET_KEY"]
 }
