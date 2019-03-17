@@ -16,7 +16,7 @@ fi
 # SLUG=${GITHUB_REPOSITORY#*/}
 # echo "ℹ︎ SLUG is $SLUG"
 
-for entry in "$GITHUB_WORKSPACE"/*
+for entry in "$HOME"/*
 do
   echo "$entry"
 done
