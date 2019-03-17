@@ -12,8 +12,7 @@ if [[ -z "$SECRET_KEY" ]]; then
 	exit 1
 fi
 
-REPO_NAME ="$(cut -d'/' -f2 <<<"$GITHUB_REPOSITORY")"
-echo "$REPO_NAME"
+echo $GITHUB_REPOSETORY cut -f2 -d"/"
 
 # move files to dist folder 
 rsync -r \
