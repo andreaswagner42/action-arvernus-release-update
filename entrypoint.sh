@@ -8,10 +8,10 @@ set -eo
 
 # Ensure SVN username and password are set
 # IMPORTANT: secrets are accessible by anyone with write access to the repository!
-# if [[ -z "$SECRET_KEY" ]]; then
-# 	echo "Set the SECRET_KEY"
-# 	exit 1
-# fi
+if [[ -z "$SECRET_KEY" ]]; then
+	echo "Set the SECRET_KEY"
+	exit 1
+fi
 
 # SLUG=${GITHUB_REPOSITORY#*/}
 # echo "ℹ︎ SLUG is $SLUG"
