@@ -12,7 +12,7 @@ if [[ -z "$SECRET_KEY" ]]; then
 	exit 1
 fi
 
-echo "$GITHUB_REPOSETORY"
+echo $GITHUB_REPOSETORY
 
 # move files to dist folder 
 rsync -r \
