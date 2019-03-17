@@ -36,7 +36,7 @@ rsync -r \
 
 zip "$PACKAGE_NAME".zip -r "$GITHUB_WORKSPACE"/"$PACKAGE_NAME"
 
-http --form http://updates.arvernus.info/"$PACKAGE_NAME" file@"$GITHUB_WORKSPACE"/"$PACKAGE_NAME".zip --headers secret_key="$SECRET_KEY"
+http --form http://updates.arvernus.info/"$PACKAGE_NAME"/1.0.1 file@"$GITHUB_WORKSPACE"/"$PACKAGE_NAME".zip --headers secret_key="$SECRET_KEY"
 
 
 # echo "✓ Plugin deployed!"
