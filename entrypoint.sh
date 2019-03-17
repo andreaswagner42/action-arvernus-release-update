@@ -31,10 +31,12 @@ rsync -r \
 --exclude ".git/" \
 --exclude ".github/" \
 "$GITHUB_WORKSPACE/" \
-arvernus-slider-build/ \
+"$PACKAGE_NAME"/ \
 --delete
 
-for entry in "$GITHUB_WORKSPACE"/arvernus-slider-build/*
+zip "$PACKAGE_NAME".zip -r "$GITHUB_WORKSPACE"/"$PACKAGE_NAME"
+
+for entry in "$GITHUB_WORKSPACE"/*
 do
   echo "$entry"
 done
