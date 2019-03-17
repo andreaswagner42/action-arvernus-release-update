@@ -12,7 +12,7 @@ if [[ -z "$SECRET_KEY" ]]; then
 	exit 1
 fi
 
-PACKAGE_NAME = "$(cut -d'/' -f2 <<<$GITHUB_REPOSITORY)"
+PACKAGE_NAME="$(cut -d'/' -f2 <<<$GITHUB_REPOSITORY)"
 echo $PACKAGE_NAME
 
 # move files to dist folder 
