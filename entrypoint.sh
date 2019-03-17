@@ -35,7 +35,8 @@ rsync -r \
 
 VERSION=${GITHUB_REF#refs/tags/}
 
-zip "$PACKAGE_NAME".zip -r "$GITHUB_WORKSPACE"/"$PACKAGE_NAME"
+cd "$GITHUB_WORKSPACE"/
+zip "$PACKAGE_NAME".zip -r "$PACKAGE_NAME"
 
 http --form http://updates.arvernus.info/package/"$PACKAGE_NAME"/"$VERSION" file@"$GITHUB_WORKSPACE"/"$PACKAGE_NAME".zip secret_key=="$SECRET_KEY"
 
