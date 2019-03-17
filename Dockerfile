@@ -1,6 +1,6 @@
 FROM debian:stable-slim
 
-LABEL "com.github.actions.name"="WordPress Plugin Deploy"
+LABEL "com.github.actions.name"="Arvernus Release Package Update"
 LABEL "com.github.actions.description"="Deploy to the Arvernus Package Repository"
 LABEL "com.github.actions.icon"="upload-cloud"
 LABEL "com.github.actions.color"="green"
