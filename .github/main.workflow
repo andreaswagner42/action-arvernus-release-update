@@ -1,6 +1,6 @@
 workflow "Testing" {
-  on = "push"
   resolves = ["WordPress Plugin Deploy"]
+  on = "release"
 }
 
 action "WordPress Plugin Deploy" {
