@@ -16,9 +16,17 @@ fi
 # SLUG=${GITHUB_REPOSITORY#*/}
 # echo "ℹ︎ SLUG is $SLUG"
 
-for entry in "$HOME"/*
+for entry in "$GITHUB_WORKSPACE"/*
 do
   echo "$entry"
 done
+
+file="$GITHUB_WORKSPACE/arvernus-slider.zip"
+if [ -f "$file" ]
+then
+	echo "$file found."
+else
+	echo "$file not found."
+fi
 
 # echo "✓ Plugin deployed!"
