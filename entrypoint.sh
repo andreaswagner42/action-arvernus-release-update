@@ -13,7 +13,6 @@ if [[ -z "$SECRET_KEY" ]]; then
 fi
 
 PACKAGE_NAME="$(cut -d'/' -f2 <<<$GITHUB_REPOSITORY)"
-echo $PACKAGE_NAME
 
 # move files to dist folder 
 rsync -r \
@@ -38,7 +37,7 @@ VERSION=${GITHUB_REF#refs/tags/}
 
 zip "$PACKAGE_NAME".zip -r "$GITHUB_WORKSPACE"/"$PACKAGE_NAME"
 
-http --form http://updates.arvernus.info/package/"$PACKAGE_NAME"/"$VERSION" file@"$GITHUB_WORKSPACE"/"$PACKAGE_NAME".zip secret_key:"$SECRET_KEY"
+http --form http://updates.arvernus.info/package/"$PACKAGE_NAME"/"$VERSION" file@"$GITHUB_WORKSPACE"/"$PACKAGE_NAME".zip secret_key="$SECRET_KEY"
 
 
 echo "✓ Plugin deployed!"
