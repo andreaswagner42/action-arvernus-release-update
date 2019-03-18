@@ -12,6 +12,7 @@ if [[ -z "$SECRET_KEY" ]]; then
 	exit 1
 fi
 
+# Get the Repo Name out of the <ORG>/<REPO> string
 PACKAGE_NAME="$(cut -d'/' -f2 <<<$GITHUB_REPOSITORY)"
 
 # move files to dist folder 
@@ -34,12 +35,24 @@ rsync -r \
 "$PACKAGE_NAME"/ \
 --delete
 
+# Get the version number out of the tag accociated with the Release
 VERSION=${GITHUB_REF#refs/tags/}
 
+# GET the release info from the GitHub API
+LATEST_RELEASE=http GET https://api.github.com/repos/"$GITHUB_REPOSITORY"/releases/latest access_token=="$GITHUB_TOKEN"
+
+LATEST_RELEASE_NAME="$LATEST_RELEASE" | jq '.name'
+
+LATEST_RELEASE_DESCRIPTION="$LATEST_RELEASE" | jq '.body'
+
+# change directory into the workspace 
 cd "$GITHUB_WORKSPACE"/
+
+# Zip the newly created folder
 zip "$PACKAGE_NAME".zip -r "$PACKAGE_NAME"
 
-http --form http://updates.arvernus.info/package/"$PACKAGE_NAME"/"$VERSION" file@"$GITHUB_WORKSPACE"/"$PACKAGE_NAME".zip secret_key=="$SECRET_KEY"
+# POST the File and Parameters to the updates api
+http --form http://updates.arvernus.info/package/"$PACKAGE_NAME"/"$VERSION" file@"$GITHUB_WORKSPACE"/"$PACKAGE_NAME".zip secret_key=="$SECRET_KEY" release_title=="$LATEST_RELEASE_NAME" release_notes=="$LATEST_RELEASE_DESCRIPTION"
 
 
 echo "✓ Plugin deployed!"
