@@ -38,8 +38,10 @@ rsync -r \
 # Get the version number out of the tag accociated with the Release
 VERSION=${GITHUB_REF#refs/tags/}
 
+echo "$GITHUB_REPOSITORY"
+
 # GET the release info from the GitHub API
-LATEST_RELEASE=`http https://api.github.com/repos/"$GITHUB_REPOSITORY"/releases/latest -a token:"$GITHUB_TOKEN"`
+LATEST_RELEASE=`http https://api.github.com/repos/"$GITHUB_REPOSITORY"/releases/latest --auth token:"$GITHUB_TOKEN"`
 echo "$LATEST_RELEASE"
 
 LATEST_RELEASE_NAME=$( jq '.name' <<< "${LATEST_RELEASE}" )
