@@ -39,13 +39,13 @@ rsync -r \
 VERSION=${GITHUB_REF#refs/tags/}
 
 # GET the release info from the GitHub API
-LATEST_RELEASE=`http https://api.github.com/repos/"$GITHUB_REPOSITORY"/releases/latest access_token=="$GITHUB_TOKEN" | jq '.'`
+LATEST_RELEASE=`http https://api.github.com/repos/"$GITHUB_REPOSITORY"/releases/latest access_token=="$GITHUB_TOKEN"`
 echo "$LATEST_RELEASE"
 
-LATEST_RELEASE_NAME=`"$LATEST_RELEASE" | jq '.name'`
+LATEST_RELEASE_NAME=$( jq '.name' <<< "${LATEST_RELEASE}" )
 echo "$LATEST_RELEASE_NAME"
 
-LATEST_RELEASE_DESCRIPTION=`"$LATEST_RELEASE" | jq '.body'`
+LATEST_RELEASE_DESCRIPTION=$( jq '.body' <<< "${LATEST_RELEASE}" )
 echo "$LATEST_RELEASE_DESCRIPTION"
 
 # change directory into the workspace 
