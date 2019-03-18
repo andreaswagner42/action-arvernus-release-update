@@ -40,10 +40,13 @@ VERSION=${GITHUB_REF#refs/tags/}
 
 # GET the release info from the GitHub API
 LATEST_RELEASE=`http https://api.github.com/repos/"$GITHUB_REPOSITORY"/releases/latest access_token=="$GITHUB_TOKEN" | jq '.'`
+echo "$LATEST_RELEASE"
 
 LATEST_RELEASE_NAME=`"$LATEST_RELEASE" | jq '.name'`
+echo "$LATEST_RELEASE_NAME"
 
 LATEST_RELEASE_DESCRIPTION=`"$LATEST_RELEASE" | jq '.body'`
+echo "$LATEST_RELEASE_DESCRIPTION"
 
 # change directory into the workspace 
 cd "$GITHUB_WORKSPACE"/
