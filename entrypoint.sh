@@ -27,6 +27,11 @@ rsync -r \
 --exclude "package.json" \
 --exclude "package-lock.json" \
 --exclude "composer.lock" \
+--exclude "wpgulp.config.js" \
+--exclude "gulpfile.babel.js" \
+--exclude ".eslintrc" \
+--exclude ".eslintrc.js" \
+--exclude ".scss-lint.yml" \
 --exclude ".vscode/" \
 --exclude ".git/" \
 --exclude ".github/" \
