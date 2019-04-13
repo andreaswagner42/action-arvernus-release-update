@@ -62,7 +62,15 @@ cd "$GITHUB_WORKSPACE"/
 zip "$PACKAGE_NAME".zip -r "$PACKAGE_NAME"
 
 # POST the File and Parameters to the updates api
-http --form http://updates.arvernus.info/package/"$PACKAGE_NAME"/"$VERSION" file@"$GITHUB_WORKSPACE"/"$PACKAGE_NAME".zip secret_key=="$SECRET_KEY" release_title=="$LATEST_RELEASE_NAME" release_notes=="$LATEST_RELEASE_DESCRIPTION"
-
-
-echo "✓ Plugin deployed!"
+if http --form http://updates.arvernus.info/package/"$PACKAGE_NAME"/"$VERSION" file@"$GITHUB_WORKSPACE"/"$PACKAGE_NAME".zip secret_key=="$SECRET_KEY" release_title=="$LATEST_RELEASE_NAME" release_notes=="$LATEST_RELEASE_DESCRIPTION"; then
+    echo "✓ Plugin deployed!"
+else
+    case $? in
+        2) echo 'Request timed out!' ;;
+        3) echo 'Unexpected HTTP 3xx Redirection!' ;;
+        4) echo 'HTTP 4xx Client Error!' ;;
+        5) echo 'HTTP 5xx Server Error!' ;;
+        6) echo 'Exceeded --max-redirects=<n> redirects!' ;;
+        *) echo 'Other Error!' ;;
+    esac
+fi
