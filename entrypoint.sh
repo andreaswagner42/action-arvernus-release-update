@@ -51,7 +51,7 @@ echo "$GITHUB_REPOSITORY"
 LATEST_RELEASE=`http https://api.github.com/repos/"$GITHUB_REPOSITORY"/releases/latest --auth token:"$GITHUB_TOKEN"`
 echo "$LATEST_RELEASE"
 
-LATEST_RELEASE_NAME=$( jq '.name' <<< "${LATEST_RELEASE}" )
+LATEST_RELEASE_NAME=$( jq '.release .name' . /github/workflow/event.json )
 echo "$LATEST_RELEASE_NAME"
 
 LATEST_RELEASE_DESCRIPTION=$( jq '.body' <<< "${LATEST_RELEASE}" )
