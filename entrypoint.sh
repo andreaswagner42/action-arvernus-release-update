@@ -46,10 +46,10 @@ rsync -r \
 VERSION=${GITHUB_REF#refs/tags/}
 
 
-LATEST_RELEASE_NAME=($(jq '.release.name' ./github/workflow/event.json))
+LATEST_RELEASE_NAME=($(jq '.release.name' /github/workflow/event.json))
 echo "$LATEST_RELEASE_NAME"
 
-LATEST_RELEASE_DESCRIPTION=($(jq '.release.body' ./github/workflow/event.json))
+LATEST_RELEASE_DESCRIPTION=($(jq '.release.body' /github/workflow/event.json))
 echo "$LATEST_RELEASE_DESCRIPTION"
 
 # change directory into the workspace 
