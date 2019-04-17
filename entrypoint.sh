@@ -15,7 +15,7 @@ fi
 # Get the Repo Name out of the <ORG>/<REPO> string
 PACKAGE_NAME="$(cut -d'/' -f2 <<<$GITHUB_REPOSITORY)"
 
-jq -r . /github/workflow/event.json
+# jq -r . /github/workflow/event.json
 
 # move files to dist folder 
 rsync -r \
@@ -51,10 +51,10 @@ echo "$GITHUB_REPOSITORY"
 LATEST_RELEASE=`http https://api.github.com/repos/"$GITHUB_REPOSITORY"/releases/latest --auth token:"$GITHUB_TOKEN"`
 echo "$LATEST_RELEASE"
 
-LATEST_RELEASE_NAME=$( jq '.release .name' . /github/workflow/event.json )
+LATEST_RELEASE_NAME=($(jq '.release.name' . /github/workflow/event.json))
 echo "$LATEST_RELEASE_NAME"
 
-LATEST_RELEASE_DESCRIPTION=$( jq '.body' <<< "${LATEST_RELEASE}" )
+LATEST_RELEASE_DESCRIPTION=($(jq '.release.body' . /github/workflow/event.json))
 echo "$LATEST_RELEASE_DESCRIPTION"
 
 # change directory into the workspace 
