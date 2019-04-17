@@ -15,6 +15,8 @@ fi
 # Get the Repo Name out of the <ORG>/<REPO> string
 PACKAGE_NAME="$(cut -d'/' -f2 <<<$GITHUB_REPOSITORY)"
 
+jq -r . /github/workflow/event.json
+
 # move files to dist folder 
 rsync -r \
 --exclude "node_modules/" \
