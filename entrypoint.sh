@@ -45,7 +45,6 @@ rsync -r \
 # Get the version number out of the tag accociated with the Release
 VERSION=${GITHUB_REF#refs/tags/}
 
-echo "$GITHUB_REPOSITORY"
 
 LATEST_RELEASE_NAME=($(jq '.release.name' . /github/workflow/event.json))
 echo "$LATEST_RELEASE_NAME"
