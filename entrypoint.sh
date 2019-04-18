@@ -50,7 +50,7 @@ LATEST_RELEASE_NAME=($(jq -r '.release.name' /github/workflow/event.json))
 echo "$LATEST_RELEASE_NAME"
 
 LATEST_RELEASE_DESCRIPTION=($(jq -r '.release.body' /github/workflow/event.json))
-echo :'$LATEST_RELEASE_DESCRIPTION'
+echo :`$LATEST_RELEASE_DESCRIPTION`
 
 # change directory into the workspace 
 cd "$GITHUB_WORKSPACE"/
