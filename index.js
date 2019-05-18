@@ -12,17 +12,18 @@ Toolkit.run(
 			tools.log.info(packageName);
 			tools.log.info(workspace);
 
-			await moveFiles(`${workspace}/`, `${workspace}/${packageName}/`);
+			const movedFiles = await moveFiles(
+				`${workspace}/`,
+				`${workspace}/${packageName}/`
+			);
 
-			tools.log.success("rsync done");
+			tools.log.success(movedFiles);
 
-			await zipDirectory(
+			const archive = await zipDirectory(
 				`${workspace}/${packageName}`,
 				`${workspace}/${packageName}.zip`
 			);
-			tools.log.success(
-				`the zip file ${workspace}/${packageName}.zip has been created`
-			);
+			tools.log.success(archive);
 
 			const {
 				release: { name, body, prerelease, tag_name }

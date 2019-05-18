@@ -1,5 +1,6 @@
 const archiver = require("archiver");
 const fs = require("fs");
+const path = require("path");
 
 /**
  * @param {String} source
@@ -10,13 +11,17 @@ function zipDirectory(source, destination) {
 	const archive = archiver("zip", { zlib: { level: 9 } });
 	const stream = fs.createWriteStream(destination);
 
+	const sourceFile = path.resolve(source);
+
 	return new Promise((resolve, reject) => {
 		archive
-			.directory(source, false)
+			.directory(sourceFile, false)
 			.on("error", error => reject(error))
 			.pipe(stream);
 
-		stream.on("close", () => resolve());
+		stream.on("close", () =>
+			resolve(`${destination} was successfully created`)
+		);
 		archive.finalize();
 	});
 }
