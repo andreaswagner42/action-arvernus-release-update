@@ -8,5 +8,6 @@ action "WordPress Plugin Deploy" {
   secrets = [
     "SECRET_KEY",
     "GITHUB_TOKEN",
+    "ARVERNUS_SECRET_KEY",
   ]
 }
