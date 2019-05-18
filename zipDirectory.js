@@ -10,6 +10,8 @@ function zipDirectory(source, destination) {
 	const archive = archiver("zip", { zlib: { level: 9 } });
 	const stream = fs.createWriteStream(destination);
 
+	console.log(fs.createWriteStream(destination));
+
 	return new Promise((resolve, reject) => {
 		archive
 			.directory(source, false)
