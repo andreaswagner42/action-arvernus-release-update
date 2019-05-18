@@ -42,6 +42,10 @@ Toolkit.run(
 				} has successfully been released.`
 			);
 		} catch (error) {
+			tools.log.error(
+				"This is coming from the catch statement in the main programm",
+				error
+			);
 			tools.exit.failure(error);
 		}
 	},
