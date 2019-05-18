@@ -8,6 +8,10 @@ Toolkit.run(
 		try {
 			const packageName = tools.context.repo.repo;
 			const workspace = tools.workspace;
+
+			tools.log.info(packageName);
+			tools.log.info(workspace);
+
 			await moveFiles(`${workspace}/`, `${workspace}/${packageName}/`);
 
 			tools.log.success("rsync done");
