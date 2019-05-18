@@ -9,7 +9,7 @@ const path = require("path");
  */
 function zipDirectory(source, destination) {
 	const archive = archiver("zip", { zlib: { level: 9 } });
-	const stream = fs.createWriteStream(destination);
+	const stream = fs.createWriteStream(path.resolve(destination));
 
 	const sourceFile = path.resolve(source);
 
