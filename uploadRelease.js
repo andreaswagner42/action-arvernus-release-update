@@ -13,7 +13,7 @@ function uploadRelease(updatePackage) {
 		packageVerson
 	} = updatePackage;
 
-	return new Promise((resolve, reject) => {
+	return new Promise(async (resolve, reject) => {
 		const file = fs.createReadStream(path.resolve(packageFile));
 
 		const form = new FormData();
@@ -26,7 +26,7 @@ function uploadRelease(updatePackage) {
 			process.env.ARVERNUS_SECRET_KEY
 		}`;
 
-		fetch(url, {
+		response = await fetch(url, {
 			method: "POST",
 			body: form
 		})
@@ -37,13 +37,12 @@ function uploadRelease(updatePackage) {
 					throw response;
 				}
 			})
-			.then(response => {
-				resolve(response);
-			})
 			.catch(error => {
 				console.log(error);
 				reject(error);
 			});
+
+		resolve(response);
 	});
 }
 
