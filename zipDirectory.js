@@ -13,6 +13,8 @@ function zipDirectory(source, destination) {
 
 	const sourceFile = path.resolve(source);
 
+	console.log(sourceFile);
+
 	return new Promise((resolve, reject) => {
 		archive
 			.directory(sourceFile, false)
