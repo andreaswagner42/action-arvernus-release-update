@@ -38,7 +38,6 @@ function uploadRelease(updatePackage) {
 				}
 			})
 			.catch(error => {
-				console.log(error);
 				reject(error);
 			});
 
