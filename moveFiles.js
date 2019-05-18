@@ -2,15 +2,15 @@ const rsync = require("rsyncwrapper");
 
 /**
  * @param {String} source
- * @param {String} out
+ * @param {String} destination
  * @returns {Promise}
  */
-function moveFiles(source, out) {
+function moveFiles(source, destination) {
 	return new Promise((resolve, reject) => {
 		rsync(
 			{
 				src: source,
-				dest: out,
+				dest: destination,
 				recursive: true,
 				deleteAll: true,
 				exclude: [
@@ -44,7 +44,7 @@ function moveFiles(source, out) {
 				if (error) {
 					reject("Zip Failed");
 				}
-				resolve(`Files moved to: ${out}`);
+				resolve(`Files moved to: ${destination}`);
 			}
 		);
 	});
