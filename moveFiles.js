@@ -7,13 +7,6 @@ const fs = require("fs");
  * @returns {Promise}
  */
 function moveFiles(source, destination, packageName) {
-	fs.writeFile(`${destination}/test.txt`);
-	fs.readdir(`${destination}/`, (error, files) => {
-		files.forEach(file => {
-			console.log(file);
-		});
-	});
-
 	return new Promise((resolve, reject) => {
 		rsync(
 			{
