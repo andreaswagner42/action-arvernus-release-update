@@ -7,11 +7,19 @@ const fs = require("fs");
  * @returns {Promise}
  */
 function moveFiles(source, destination, packageName) {
+	if (!fs.existsSync(destination)) {
+		fs.mkdirSync(destination);
+	}
+
+	if (!fs.existsSync(`${destination}/${packageName}/`)) {
+		fs.mkdirSync(`${destination}/${packageName}/`);
+	}
+
 	return new Promise((resolve, reject) => {
 		rsync(
 			{
 				src: source,
-				dest: destination,
+				dest: `${destination}/${packageName}/`,
 				recursive: true,
 				deleteAll: true,
 				exclude: [
