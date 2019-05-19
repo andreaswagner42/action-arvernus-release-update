@@ -1,11 +1,19 @@
 const rsync = require("rsyncwrapper");
+const fs = require("fs");
 
 /**
  * @param {String} source
  * @param {String} destination
  * @returns {Promise}
  */
-function moveFiles(source, destination) {
+function moveFiles(source, destination, packageName) {
+	fs.writeFile(`${destination}/test.txt`);
+	fs.readdir(`${destination}/`, (error, files) => {
+		files.forEach(file => {
+			console.log(file);
+		});
+	});
+
 	return new Promise((resolve, reject) => {
 		rsync(
 			{
@@ -23,7 +31,7 @@ function moveFiles(source, destination) {
 					"test",
 					"src",
 					"*.zip",
-					"dist/",
+					"dist",
 					"webpack.config.js",
 					".prettierrc",
 					"gulp.config.js",
@@ -34,15 +42,16 @@ function moveFiles(source, destination) {
 					".eslintrc",
 					".eslintrc.js",
 					".scss-lint.yml",
-					".vscode/",
-					".git/",
-					"blocks/",
-					".DS_Store"
+					".vscode",
+					".git",
+					"blocks",
+					".DS_Store",
+					`${packageName}`
 				]
 			},
 			function(error) {
 				if (error) {
-					reject("Zip Failed");
+					reject(`Moving the files resoved in an Error: ${error}`);
 				}
 				resolve(`Files moved to: ${destination}`);
 			}
