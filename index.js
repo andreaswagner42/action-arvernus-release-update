@@ -27,7 +27,7 @@ Toolkit.run(
 			tools.log.success(archive);
 
 			const {
-				release: { name, body, prerelease, tag_name }
+				release: { name, body, prerelease, tag_name, published_at }
 			} = tools.context.payload;
 
 			const updatePackage = {
@@ -36,6 +36,7 @@ Toolkit.run(
 				isPrerelease: prerelease,
 				packageName: packageName,
 				packageVerson: tag_name,
+				publishedAt: published_at,
 				packageFile: `${workspace}/${packageName}.zip`
 			};
 
