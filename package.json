@@ -1,5 +1,6 @@
 {
-	"name": "test-action",
+	"name": "action-arvernus-release-update",
+	"versioin": "2.0.0",
 	"private": true,
 	"main": "index.js",
 	"scripts": {
