@@ -14,7 +14,7 @@ Toolkit.run(
 
 			const movedFiles = await moveFiles(
 				`${workspace}/`,
-				`${workspace}/${packageName}/`,
+				`${workspace}/${packageName}/${packageName}/`,
 				packageName
 			);
 
