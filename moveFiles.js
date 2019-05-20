@@ -29,10 +29,9 @@ function moveFiles(source, destination, packageName) {
 					"Dockerfile",
 					".gitignore",
 					".github",
-					"test",
-					"src",
+					"test/",
+					"src/",
 					"*.zip",
-					"dist",
 					"webpack.config.js",
 					".prettierrc",
 					"gulp.config.js",
@@ -47,7 +46,10 @@ function moveFiles(source, destination, packageName) {
 					".git",
 					"blocks",
 					".DS_Store",
-					`${packageName}`
+					`${packageName}`,
+					"phpcs.xml.dist",
+					".eslintignore",
+					".editorconfig"
 				]
 			},
 			function(error) {
