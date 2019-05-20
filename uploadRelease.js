@@ -10,7 +10,8 @@ function uploadRelease(updatePackage) {
 		releaseNotes,
 		isPrerelease,
 		packageName,
-		packageVerson
+		packageVerson,
+		publishedAt
 	} = updatePackage;
 
 	return new Promise(async (resolve, reject) => {
@@ -20,6 +21,7 @@ function uploadRelease(updatePackage) {
 		form.append("release_title", releaseTitle);
 		form.append("release_notes", releaseNotes);
 		form.append("prerelease", String(isPrerelease));
+		form.append("published_at", publishedAt);
 		form.append("file", file);
 
 		const url = `http://updates.arvernus.info/package/${packageName}/${packageVerson}?secret_key=${
