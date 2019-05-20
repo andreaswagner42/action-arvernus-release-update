@@ -1,58 +1,50 @@
 const { Toolkit } = require("actions-toolkit");
-const zipDirectory = require("./zipDirectory");
-const moveFiles = require("./moveFiles");
-const uploadRelease = require("./uploadRelease");
+const releaseUpdate = require("./releaseUpdate");
+const deleteRelease = require("./deleteRelease");
 
 Toolkit.run(
 	async tools => {
+		const packageName = tools.context.repo.repo;
+		const workspace = tools.workspace;
+		const {
+			release: { name, body, prerelease, tag_name, published_at }
+		} = tools.context.payload;
+		if (!process.env.UPDATE_SERVER_URL) {
+			process.env.UPDATE_SERVER_URL = "http://updates.arvernus.info";
+		}
 		try {
-			const packageName = tools.context.repo.repo;
-			const workspace = tools.workspace;
+			const { action } = tools.context.payload;
 
-			tools.log.info(packageName);
-			tools.log.info(workspace);
+			switch (action) {
+				case "published":
+				case "edited":
+					const uploadResponse = await releaseUpdate(tools);
+					tools.exit.success(
+						`Version ${uploadResponse.version} of the Package ${
+							uploadResponse.name
+						} has successfully been released.`
+					);
+					break;
+				case "unpublished":
+				case "deleted":
+					const deleteResponse = await deleteRelease(
+						packageName,
+						tag_name,
+						process.env.UPDATE_SERVER_URL,
+						tools
+					);
 
-			const movedFiles = await moveFiles(
-				`${workspace}/`,
-				`${workspace}/${packageName}/`,
-				packageName
-			);
-
-			tools.log.success(movedFiles);
-
-			const archive = await zipDirectory(
-				`${workspace}/${packageName}`,
-				`${workspace}/${packageName}.zip`
-			);
-			tools.log.success(archive);
-
-			const {
-				release: { name, body, prerelease, tag_name, published_at }
-			} = tools.context.payload;
-
-			const updatePackage = {
-				releaseTitle: name,
-				releaseNotes: body,
-				isPrerelease: prerelease,
-				packageName: packageName,
-				packageVerson: tag_name,
-				publishedAt: published_at,
-				packageFile: `${workspace}/${packageName}.zip`
-			};
-
-			const response = await uploadRelease(updatePackage);
-			tools.log.success(`${response.name} has been uploaded`);
-
-			tools.exit.success(
-				`Version ${response.version} of the Package ${
-					response.name
-				} has successfully been released.`
-			);
+					tools.exit.success(
+						`Version ${deleteResponse.version} of the Package ${
+							deleteResponse.name
+						} has successfully been deleted.`
+					);
+					break;
+				default:
+					throw `This Action was triggered using the ${action} event. In order to work correcty it needs to run on "published", "edited", "unpublished" or "deleted"`;
+			}
 		} catch (error) {
-			tools.log.error(
-				"This is coming from the catch statement in the main programm",
-				error
-			);
+			tools.log.error(error);
 			tools.exit.failure(error);
 		}
 	},
