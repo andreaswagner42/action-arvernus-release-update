@@ -45,7 +45,7 @@ async function releaseUpdate(tools) {
 
 		const size = fs.statSync(`${workspace}/${packageName}.zip`).size;
 
-		tools.github.repos
+		const result = tools.github.repos
 			.getReleaseByTag({
 				...tools.context.repo,
 				tag: tag_name
@@ -60,6 +60,8 @@ async function releaseUpdate(tools) {
 					label: packageName
 				});
 			});
+
+		tools.log.info("Add to release result:", result);
 
 		return Promise.resolve(response);
 	} catch (error) {
