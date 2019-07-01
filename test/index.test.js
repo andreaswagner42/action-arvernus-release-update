@@ -2,11 +2,13 @@ const { Toolkit } = require("actions-toolkit");
 const path = require("path");
 jest.mock("node-fetch");
 jest.mock("../moveFiles");
+jest.mock("../zipFile");
 jest.mock("../zipDirectory");
 jest.mock("../deleteRelease");
 const fetch = require("node-fetch");
 const moveFiles = require("../moveFiles");
 const zipDirectory = require("../zipDirectory");
+const zipFile = require("../zipFile");
 const deleteRelease = require("../deleteRelease");
 
 describe("Arvernus Release Package Update", () => {
@@ -63,6 +65,10 @@ describe("Arvernus Release Package Update", () => {
 		);
 
 		zipDirectory.mockReturnValue(
+			Promise.resolve(`./test-action/test-action.zip was successfully created`)
+		);
+
+		zipFile.mockReturnValue(
 			Promise.resolve(`./test-action/test-action.zip was successfully created`)
 		);
 
@@ -125,6 +131,14 @@ describe("Arvernus Release Package Update", () => {
 		await action(tools);
 
 		expect(deleteRelease).toHaveBeenCalledTimes(2);
+		expect(tools.exit.success).toHaveBeenCalled();
+	});
+
+	it("to create zip with only one file in it if MU-PLUGIN", async () => {
+		process.env.PACKAGE_TYPE = "MU-PLUGIN";
+		await action(tools);
+
+		expect(zipFile).toHaveBeenCalledTimes(1);
 		expect(tools.exit.success).toHaveBeenCalled();
 	});
 });

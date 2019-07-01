@@ -1,3 +1,4 @@
+const zipFile = require("./zipFile");
 const zipDirectory = require("./zipDirectory");
 const moveFiles = require("./moveFiles");
 const uploadRelease = require("./uploadRelease");
@@ -18,10 +19,19 @@ async function releaseUpdate(tools) {
 
 		tools.log.success(movedFiles);
 
-		const archive = await zipDirectory(
-			`${workspace}/${packageName}`,
-			`${workspace}/${packageName}.zip`
-		);
+		let archive;
+		if (process.env.PACKAGE_TYPE === "MU-PLUGIN") {
+			archive = await zipFile(
+				`${workspace}`,
+				`${workspace}/${packageName}.zip`,
+				packageName
+			);
+		} else {
+			archive = await zipDirectory(
+				`${workspace}/${packageName}`,
+				`${workspace}/${packageName}.zip`
+			);
+		}
 		tools.log.success(archive);
 
 		const updatePackage = {
