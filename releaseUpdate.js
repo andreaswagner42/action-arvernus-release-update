@@ -57,8 +57,8 @@ async function releaseUpdate(tools) {
 						"content-length": size
 					},
 					url: result.data.upload_url,
-					name: packageName,
-					file: `${workspace}/${packageName}.zip`,
+					name: `${packageName}.zip`,
+					file: fs.createReadStream(`${workspace}/${packageName}.zip`),
 					label: packageName
 				});
 			});
