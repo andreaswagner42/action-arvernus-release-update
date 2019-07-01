@@ -52,11 +52,13 @@ async function releaseUpdate(tools) {
 			})
 			.then(result => {
 				return tools.github.repos.uploadReleaseAsset({
+					headers: {
+						"content-type": "text/json",
+						"content-length": size
+					},
 					url: result.data.upload_url,
 					name: packageName,
-					contentType: "text/json",
 					file: fs.createReadStream(`${workspace}/${packageName}.zip`),
-					contentLength: size,
 					label: packageName
 				});
 			});
