@@ -45,7 +45,7 @@ async function releaseUpdate(tools) {
 
 		const size = fs.statSync(`${workspace}/${packageName}.zip`).size;
 
-		const result = tools.github.repos
+		const result = await tools.github.repos
 			.getReleaseByTag({
 				...tools.context.repo,
 				tag: tag_name
