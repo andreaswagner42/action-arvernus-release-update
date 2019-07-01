@@ -1,6 +1,7 @@
 const zipDirectory = require("./zipDirectory");
 const moveFiles = require("./moveFiles");
 const uploadRelease = require("./uploadRelease");
+const fs = require("fs");
 
 async function releaseUpdate(tools) {
 	try {
@@ -39,6 +40,26 @@ async function releaseUpdate(tools) {
 			process.env.UPDATE_SERVER_URL
 		);
 		tools.log.success(`${response.name} has been uploaded`);
+
+		// attach zip file to release on GitHub
+
+		const size = fs.statSync(`${workspace}/${packageName}.zip`).size;
+
+		tools.github.repos
+			.getReleaseByTag({
+				...tools.context.repo,
+				tag: tag_name
+			})
+			.then(result => {
+				return tools.github.repos.uploadReleaseAsset({
+					url: result.data.upload_url,
+					name: packageName,
+					contentType: "text/json",
+					file: fs.createReadStream(`${workspace}/${packageName}.zip`),
+					contentLength: size,
+					label: packageName
+				});
+			});
 
 		return Promise.resolve(response);
 	} catch (error) {
