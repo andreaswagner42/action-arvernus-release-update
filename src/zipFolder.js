@@ -11,6 +11,12 @@ function zipFolder(source, destination, name) {
 	const archive = archiver("zip", { zlib: { level: 9 } });
 	const stream = fs.createWriteStream(`${destination}/${name}.zip`);
 
+	fs.readdir(source, (err, files) => {
+		files.forEach(file => {
+			console.log(file);
+		});
+	});
+
 	return new Promise((resolve, reject) => {
 		archive
 			.directory(source, false)
