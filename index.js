@@ -7,21 +7,13 @@ const action = async () => {
 		console.log("githubToken", githubToken);
 
 		// const octokit = new github.GitHub(githubToken);
-		console.log("context", github.context);
-
-		// const ref = await octokit.git.getRef({
-		// 	...github.context.repo,
-		// 	...github.context
-		// });
-
-		// console.log("ref", ref);
+		console.log(github.context.payload);
+		console.log("tagName", github.context.payload.release.tag_name);
 
 		const updateServerUrl = core.getInput("update-server-url");
 		console.log("updateServerUrl", updateServerUrl);
-		const serverSecretKey = core.getInput("server-secret-key");
-		console.log("serverSecretKey", serverSecretKey);
-
-		const action = github.context.eventName;
+		console.log("serverSecretKey", process.env);
+		const action = github.context.payload.action;
 		console.log("action", action);
 		const packageName = github.context.repo.repo;
 		console.log("packageName", packageName);
