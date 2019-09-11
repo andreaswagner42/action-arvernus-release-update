@@ -4,18 +4,16 @@ const github = require("@actions/github");
 const action = async () => {
 	try {
 		const githubToken = core.getInput("github-access-token");
-		console.log("githubToken", githubToken);
+		const updateServerUrl = core.getInput("update-server-url");
+		const action = github.context.payload.action;
+		const packageName = github.context.repo.repo;
+		const { release } = github.context.payload;
 
 		const octokit = new github.GitHub(githubToken);
-		console.log(github.context.payload);
-		console.log("tagName", github.context.payload.release.tag_name);
 
-		const updateServerUrl = core.getInput("update-server-url");
-		console.log("updateServerUrl", updateServerUrl);
-		const action = github.context.payload.action;
-		console.log("action", action);
-		const packageName = github.context.repo.repo;
-		console.log("packageName", packageName);
+		console.log("Version Number", release.tag_name);
+		console.log("Action Triigger", action);
+		console.log("Package Name", packageName);
 
 		return;
 	} catch (error) {
