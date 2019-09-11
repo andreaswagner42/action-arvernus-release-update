@@ -8,8 +8,8 @@ async function moveFiles(source, destination, name) {
 			fs.mkdirSync(destination);
 		}
 
-		if (!fs.existsSync(`${destination}/${packageName}/`)) {
-			fs.mkdirSync(`${destination}/${packageName}/`);
+		if (!fs.existsSync(`${destination}/${name}/`)) {
+			fs.mkdirSync(`${destination}/${name}/`);
 		}
 
 		rsync(
