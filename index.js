@@ -21,7 +21,9 @@ try {
 	// const action = github.context.eventName;
 	// const packageName = github.context.repo.repo;
 	core.debug("Hello World!");
+	return;
 } catch (error) {
 	core.warning("Hello Catch!");
 	core.setFailed(error.message);
+	return;
 }
