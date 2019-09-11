@@ -22,7 +22,7 @@ function zipDirectory(source, destination) {
 		stream.on("close", () => {
 			archive.finalize();
 			console.log(`${destination} was successfully created`);
-			resolve(sdestination);
+			resolve(path.resolve(destination));
 		});
 	});
 }

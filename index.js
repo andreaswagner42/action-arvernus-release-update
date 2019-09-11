@@ -21,27 +21,18 @@ const action = async () => {
 		switch (action) {
 			case "published":
 			case "edited":
-				fs.readdir(path.resolve("."), function(err, files) {
-					//handling error
-					if (err) {
-						throw new Error("Unable to scan directory: " + err);
-					}
-					//listing all files using forEach
-					files.forEach(function(file) {
-						// Do whatever you want to do with the file
-						console.log(file);
-					});
-				});
-
 				const folderPath = await moveFiles(
 					path.resolve("."),
 					"dist",
 					packageName
 				);
+				console.log(folderPath);
 
 				const zipPath = await zipFolder(folderPath, `dist/${packageName}.zip`);
+				console.log(zipPath);
 
 				release.file = zipPath;
+				console.log(release);
 
 				const uploadResponse = await uploadRelease(
 					packageName,
