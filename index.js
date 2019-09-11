@@ -18,10 +18,6 @@ const action = async () => {
 		const updateServerUrl = core.getInput("update-server-url");
 		const serverSecretKey = core.getInput("server-secret-key");
 
-		if (!serverSecretKey) {
-			throw new Error("The server-secret-key must be set.");
-		}
-
 		const action = github.context.eventName;
 		const packageName = github.context.repo.repo;
 
