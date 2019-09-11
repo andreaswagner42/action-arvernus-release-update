@@ -49,4 +49,6 @@ const action = async () => {
 	}
 };
 
+action();
+
 module.exports = action;
