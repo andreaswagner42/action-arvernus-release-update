@@ -1,4 +1,4 @@
-const io = require("@actions/io");
+const fs = require("fs");
 const rsync = require("rsyncwrapper");
 const path = require("path");
 
