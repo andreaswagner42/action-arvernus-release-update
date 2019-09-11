@@ -5,7 +5,7 @@ const deleteRelease = require("./deleteRelease");
 
 const action = async () => {
 	try {
-		core.debug(github);
+		core.debug(github.context);
 		const {
 			release: { tag_name }
 		} = github.context;
