@@ -5,10 +5,16 @@ const deleteRelease = require("./deleteRelease");
 
 const action = async () => {
 	try {
-		core.debug(github.context);
-		const {
-			release: { tag_name }
-		} = github.context;
+		const githubToken = core.getInput("github-access-token");
+		const octokit = new github.GitHub(githubToken);
+		core.debug("context: " + github.context.ref);
+
+		const ref = octokit.git.getRef({
+			...github.context
+		});
+
+		core.debug("ref: " + ref);
+
 		const updateServerUrl = core.getInput("update-server-url");
 		const serverSecretKey = core.getInput("server-secret-key");
 
@@ -16,7 +22,8 @@ const action = async () => {
 			throw new Error("The server-secret-key must be set.");
 		}
 
-		const { action } = github.context.payload;
+		const action = github.context.eventName;
+		const packageName = github.context.repo.repo;
 
 		switch (action) {
 			case "published":

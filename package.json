@@ -19,7 +19,6 @@
 		"fs": "0.0.1-security",
 		"node-fetch": "^2.6.0",
 		"path": "^0.12.7",
-		"recursive-copy": "^2.0.10",
 		"rsyncwrapper": "^3.0.1"
 	},
 	"devDependencies": {
