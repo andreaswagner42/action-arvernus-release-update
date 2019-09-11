@@ -1,0 +1,20 @@
+name: "Arvernus Release Package Update"
+description: "Deploy to the Arvernus Package Repository"
+author: "Arvernus GmbH"
+inputs:
+  github-access-token:
+    description: "GitHub Access Token to move files and attach the Zip to the release"
+    reqired: true
+  update-server-url:
+    description: "URL of the Server the release will be uploaded to"
+    required: true
+    default: "http://updates.arvernus.info"
+  server-secret-key:
+    description: "Secret key from the update server to accept uploads"
+    required: true
+runs:
+  using: "node12"
+  main: "action.js"
+branding:
+  icon: "upload-cloud"
+  color: "green"

@@ -1,4 +1,6 @@
-const { Toolkit } = require("actions-toolkit");
+const action = require("../index.js");
+const core = require("@actions/core");
+const github = require("@actions/github");
 const path = require("path");
 jest.mock("node-fetch");
 jest.mock("../moveFiles");
@@ -12,27 +14,19 @@ const zipFile = require("../zipFile");
 const deleteRelease = require("../deleteRelease");
 
 describe("Arvernus Release Package Update", () => {
-	let action, tools;
-
-	// Mock Toolkit.run to define `action` so we can call it
-	Toolkit.run = jest.fn(actionFn => {
-		action = actionFn;
-	});
 	process.env.GITHUB_REPOSITORY = "fabiankaegy/test-action";
 
 	// Load up our entry-point file
 	require("..");
 
 	beforeEach(() => {
-		// Create a new Toolkit instance
-		tools = new Toolkit();
 		// Mock methods on it!
 		process.env.UPDATE_SERVER_URL = "localhost:3000";
-		tools.workspace = path.dirname(".");
-		tools.exit.success = jest.fn();
-		tools.exit.failure = jest.fn();
-		tools.context.repo = jest.fn({ owner: "fabiankaegy", repo: "test-repo" });
-		tools.context.payload = {
+		github.workspace = path.dirname(".");
+		core.debug = jest.fn();
+		core.setFailed = jest.fn();
+		github.context.repo = jest.fn({ owner: "fabiankaegy", repo: "test-repo" });
+		github.context.payload = {
 			action: "published",
 			release: {
 				tag_name: "0.0.3-beta.1",
@@ -83,62 +77,56 @@ describe("Arvernus Release Package Update", () => {
 	});
 
 	it("exits successfully if action is published", async () => {
-		await action(tools);
-
+		await action();
 		expect(moveFiles).toHaveBeenCalledTimes(1);
 		expect(zipDirectory).toHaveBeenCalledTimes(1);
-		expect(tools.exit.success).toHaveBeenCalled();
 	});
 
 	it("exits successfully if action is published", async () => {
-		tools.context.payload = {
-			...tools.context.payload,
+		github.context.payload = {
+			...github.context.payload,
 			action: "edited"
 		};
-		await action(tools);
+		await action();
 
 		expect(moveFiles).toHaveBeenCalledTimes(2);
 		expect(zipDirectory).toHaveBeenCalledTimes(2);
-		expect(tools.exit.success).toHaveBeenCalled();
 	});
 
 	it("exits unsuccessfully if action is not published, edited, unpublished or deleted", async () => {
-		tools.context.payload = {
-			...tools.context.payload,
+		github.context.payload = {
+			...github.context.payload,
 			action: "created"
 		};
-		await action(tools);
+		await action();
 
-		expect(tools.exit.failure).toHaveBeenCalled();
+		expect(core.setFailed).toHaveBeenCalled();
 	});
 
 	it("exits successfully if action is deleted", async () => {
-		tools.context.payload = {
-			...tools.context.payload,
+		github.context.payload = {
+			...github.context.payload,
 			action: "deleted"
 		};
-		await action(tools);
+		await action();
 
 		expect(deleteRelease).toHaveBeenCalledTimes(1);
-		expect(tools.exit.success).toHaveBeenCalled();
 	});
 
 	it("exits successfully if action is unpublished", async () => {
-		tools.context.payload = {
-			...tools.context.payload,
+		github.context.payload = {
+			...github.context.payload,
 			action: "unpublished"
 		};
-		await action(tools);
+		await action();
 
 		expect(deleteRelease).toHaveBeenCalledTimes(2);
-		expect(tools.exit.success).toHaveBeenCalled();
 	});
 
 	it("to create zip with only one file in it if MU-PLUGIN", async () => {
 		process.env.PACKAGE_TYPE = "MU-PLUGIN";
-		await action(tools);
+		await action();
 
 		expect(zipFile).toHaveBeenCalledTimes(1);
-		expect(tools.exit.success).toHaveBeenCalled();
 	});
 });

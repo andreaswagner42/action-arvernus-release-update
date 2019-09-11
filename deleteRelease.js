@@ -1,15 +1,15 @@
+const core = require("@actions/core");
+const github = require("@actions/github");
 const fetch = require("node-fetch");
 
 async function deleteRelease(
 	packageName,
 	packageVersion,
-	serverUrl = process.env.UPDATE_SERVER_URL,
-	tools
+	serverUrl,
+	serverSecretKey
 ) {
 	try {
-		const url = `${serverUrl}/package/${packageName}/${packageVersion}/delete?secret_key=${
-			process.env.ARVERNUS_SECRET_KEY
-		}`;
+		const url = `${serverUrl}/package/${packageName}/${packageVersion}/delete?secret_key=${serverSecretKey}`;
 
 		const response = await fetch(url, {
 			method: "POST"

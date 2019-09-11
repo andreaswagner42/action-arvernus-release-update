@@ -1,16 +1,20 @@
+const core = require("@actions/core");
+const github = require("@actions/github");
 const zipFile = require("./zipFile");
 const zipDirectory = require("./zipDirectory");
 const moveFiles = require("./moveFiles");
 const uploadRelease = require("./uploadRelease");
 const fs = require("fs");
 
-async function releaseUpdate(tools) {
+async function releaseUpdate(updateServerUrl, serverSecretKey) {
 	try {
-		const packageName = tools.context.repo.repo;
-		const workspace = tools.workspace;
+		const githubToken = core.getInput("github-access-token");
+		const octokit = new github.GitHub(githubToken);
+		const packageName = github.context.repo.repo;
+		const workspace = github.workspace;
 		const {
 			release: { name, body, prerelease, tag_name, published_at }
-		} = tools.context.payload;
+		} = github.context.payload;
 
 		const movedFiles = await moveFiles(
 			`${workspace}/`,
@@ -18,7 +22,7 @@ async function releaseUpdate(tools) {
 			packageName
 		);
 
-		tools.log.success(movedFiles);
+		core.debug(movedFiles);
 
 		let archive;
 		if (process.env.PACKAGE_TYPE === "MU-PLUGIN") {
@@ -33,7 +37,7 @@ async function releaseUpdate(tools) {
 				`${workspace}/${packageName}.zip`
 			);
 		}
-		tools.log.success(archive);
+		core.debug(archive);
 
 		const updatePackage = {
 			releaseTitle: name,
@@ -47,21 +51,22 @@ async function releaseUpdate(tools) {
 
 		const response = await uploadRelease(
 			updatePackage,
-			process.env.UPDATE_SERVER_URL
+			updateServerUrl,
+			serverSecretKey
 		);
-		tools.log.success(`${response.name} has been uploaded`);
+		core.debug(`${response.name} has been uploaded`);
 
 		// attach zip file to release on GitHub
 
 		const size = fs.statSync(`${workspace}/${packageName}.zip`).size;
 
-		const result = await tools.github.repos
+		const result = await octokit.repos
 			.getReleaseByTag({
-				...tools.context.repo,
+				...github.context.repo,
 				tag: tag_name
 			})
 			.then(result => {
-				return tools.github.repos.uploadReleaseAsset({
+				return octokit.repos.uploadReleaseAsset({
 					headers: {
 						"content-type": "text/plain",
 						"content-length": size
@@ -73,7 +78,7 @@ async function releaseUpdate(tools) {
 				});
 			});
 
-		tools.log.info("Add to release result:", result);
+		core.debug("Add to release result:", result);
 
 		return Promise.resolve(response);
 	} catch (error) {

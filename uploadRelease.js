@@ -3,10 +3,7 @@ const fs = require("fs");
 const fetch = require("node-fetch");
 const path = require("path");
 
-function uploadRelease(
-	updatePackage,
-	serverUrl = process.env.UPDATE_SERVER_URL
-) {
+function uploadRelease(updatePackage, serverUrl, serverSecretKey) {
 	const {
 		packageFile,
 		releaseTitle,
@@ -18,9 +15,7 @@ function uploadRelease(
 	} = updatePackage;
 
 	return new Promise(async (resolve, reject) => {
-		const url = `${serverUrl}/package/${packageName}/${packageVerson}?secret_key=${
-			process.env.ARVERNUS_SECRET_KEY
-		}`;
+		const url = `${serverUrl}/package/${packageName}/${packageVerson}?secret_key=${serverSecretKey}`;
 
 		const file = fs.createReadStream(path.resolve(packageFile));
 

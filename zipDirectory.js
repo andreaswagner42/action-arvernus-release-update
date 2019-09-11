@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 /**
+ * zipDirectory
  * @param {String} source
  * @param {String} destination
  * @returns {Promise}
