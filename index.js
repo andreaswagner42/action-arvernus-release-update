@@ -6,13 +6,12 @@ const action = async () => {
 		const githubToken = core.getInput("github-access-token");
 		console.log("githubToken", githubToken);
 
-		// const octokit = new github.GitHub(githubToken);
+		const octokit = new github.GitHub(githubToken);
 		console.log(github.context.payload);
 		console.log("tagName", github.context.payload.release.tag_name);
 
 		const updateServerUrl = core.getInput("update-server-url");
 		console.log("updateServerUrl", updateServerUrl);
-		console.log("serverSecretKey", process.env);
 		const action = github.context.payload.action;
 		console.log("action", action);
 		const packageName = github.context.repo.repo;
