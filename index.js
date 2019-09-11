@@ -8,6 +8,7 @@ const action = async () => {
 		core.debug("context: " + github.context.ref);
 
 		const ref = octokit.git.getRef({
+			...github.context.repo,
 			...github.context
 		});
 
