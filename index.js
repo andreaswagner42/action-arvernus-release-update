@@ -24,20 +24,25 @@ const action = async () => {
 				fs.readdir(path.resolve("."), function(err, files) {
 					//handling error
 					if (err) {
-						return core.warning("Unable to scan directory: " + err);
+						throw new Error("Unable to scan directory: " + err);
 					}
 					//listing all files using forEach
 					files.forEach(function(file) {
 						// Do whatever you want to do with the file
-						core.debug(file);
+						console.log(file);
 					});
 				});
 
-				const folderPath = await moveFiles(path.resolve(), "dist", packageName);
+				const folderPath = await moveFiles(
+					path.resolve("."),
+					"dist",
+					packageName
+				);
 
-				zipFolder(folderPath, `dist/${packageName}.zip`);
+				const zipPath = await zipFolder(folderPath, `dist/${packageName}.zip`);
 
-				release.file = path.resolve();
+				release.file = zipPath;
+
 				const uploadResponse = await uploadRelease(
 					packageName,
 					release,
