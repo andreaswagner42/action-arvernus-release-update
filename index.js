@@ -28,11 +28,10 @@ const action = async () => {
 				);
 				console.log("Folder Path:", folderPath);
 
-				const zipPath = await zipFolder(folderPath, `dist`);
+				const zipPath = await zipFolder(folderPath, `dist`, packageName);
 				console.log("Zip Path", zipPath);
 
 				release.file = zipPath;
-				console.log(release);
 
 				const uploadResponse = await uploadRelease(
 					packageName,

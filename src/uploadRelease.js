@@ -17,11 +17,13 @@ async function uploadRelease(name, release, hostname, secret) {
 		const response = await fetch(url, { method: "POST", body: form });
 
 		if (!response.ok) {
+			console.log("response not ok");
 			throw response;
 		}
 
 		const responseJson = await response.json();
 
+		console.log(responseJson);
 		return Promise.resolve(responseJson);
 	} catch (error) {
 		return Promise.reject(error);
