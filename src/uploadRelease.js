@@ -18,7 +18,7 @@ async function uploadRelease(name, release, hostname, secret) {
 
 		if (!response.ok) {
 			console.log("response not ok");
-			throw response;
+			throw await response.json();
 		}
 
 		const responseJson = await response.json();
