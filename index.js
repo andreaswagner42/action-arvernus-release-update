@@ -21,7 +21,7 @@ const action = async () => {
 		switch (action) {
 			case "published":
 			case "edited":
-				fs.readdir(path.resolve(), function(err, files) {
+				fs.readdir(path.resolve("."), function(err, files) {
 					//handling error
 					if (err) {
 						return core.warning("Unable to scan directory: " + err);
