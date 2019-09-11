@@ -9,11 +9,20 @@ const action = async () => {
 		const packageName = github.context.repo.repo;
 		const { release } = github.context.payload;
 
-		const octokit = new github.GitHub(githubToken);
-
-		console.log("Version Number", release.tag_name);
-		console.log("Action Triigger", action);
-		console.log("Package Name", packageName);
+		switch (action) {
+			case "published":
+			case "edited":
+				console.log(`Upload Release ${release.tag_name} of ${packageName}`);
+				break;
+			case "unpublished":
+			case "deleted":
+				console.log(`Delete Release ${release.tag_name} of ${packageName}`);
+				break;
+			default:
+				throw new Error(
+					`This action was triggered using the ${action} event which is not supported by this Action.`
+				);
+		}
 
 		return;
 	} catch (error) {
