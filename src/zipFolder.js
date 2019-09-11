@@ -7,7 +7,7 @@ const path = require("path");
  * @param {String} destination
  * @returns {Promise}
  */
-function zipDirectory(source, destination) {
+function zipFolder(source, destination) {
 	const archive = archiver("zip", { zlib: { level: 9 } });
 	const stream = fs.createWriteStream(path.resolve(destination));
 
@@ -27,4 +27,4 @@ function zipDirectory(source, destination) {
 	});
 }
 
-module.exports = zipDirectory;
+module.exports = zipFolder;
