@@ -8,6 +8,12 @@
 		"@actions/github": "^1.1.0",
 		"@actions/io": "^1.0.1",
 		"@actions/tool-cache": "^1.1.1",
-		"node-fetch": "^2.6.0"
+		"archiver": "^3.1.1",
+		"form-data": "^2.5.1",
+		"fs": "0.0.1-security",
+		"node-fetch": "^2.6.0",
+		"path": "^0.12.7",
+		"rsyncwrapper": "^3.0.1",
+		"zip-that": "^1.2.0"
 	}
 }
