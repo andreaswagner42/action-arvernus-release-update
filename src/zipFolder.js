@@ -12,19 +12,22 @@ function zipFolder(source, destination, name) {
 	const stream = fs.createWriteStream(
 		`${path.resolve(destination)}/${name}.zip`
 	);
-
-	return new Promise((resolve, reject) => {
+	try {
 		archive
 			.directory(source, false)
-			.on("error", error => reject(error))
+			.on("error", error => {
+				throw new Error(error);
+			})
 			.pipe(stream);
 
 		stream.on("close", () => {
-			archive.finalize();
 			console.log(`${destination} was successfully created`);
-			resolve(path.resolve(`destination}/${name}.zip`));
+			return Promise.resolve(path.resolve(`${destination}/${name}.zip`));
 		});
-	});
+		archive.finalize();
+	} catch (error) {
+		return Promise.reject(error);
+	}
 }
 
 module.exports = zipFolder;
