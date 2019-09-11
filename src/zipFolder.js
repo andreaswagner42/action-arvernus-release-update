@@ -21,7 +21,7 @@ function zipFolder(source, destination, name) {
 
 		stream.on("close", () => {
 			console.log(`${destination} was successfully created`);
-			resolve(path.resolve(`destination}/${name}.zip`));
+			resolve(path.resolve(`${destination}/${name}.zip`));
 		});
 		archive.finalize();
 	});
