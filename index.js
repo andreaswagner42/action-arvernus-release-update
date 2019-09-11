@@ -2,34 +2,32 @@ const core = require("@actions/core");
 const github = require("@actions/github");
 
 try {
-	// const githubToken = core.getInput("github-access-token");
-	// const octokit = new github.GitHub(githubToken);
-	// core.debug("context: " + github.context.ref);
+	const githubToken = core.getInput("github-access-token");
+	console.log("githubToken", githubToken);
 
-	// const ref = octokit.git.getRef({
-	// 	...github.context.repo,
-	// 	...github.context
-	// });
+	const octokit = new github.GitHub(githubToken);
+	console.log("octokit", octokit);
+	console.log("context", github.context);
 
-	// core.debug("ref: " + ref);
+	const ref = octokit.git.getRef({
+		...github.context.repo,
+		...github.context
+	});
 
-	// const updateServerUrl = core.getInput("update-server-url");
-	// core.debug("updateServerUrl: " + updateServerUrl);
-	// const serverSecretKey = core.getInput("server-secret-key");
-	// core.debug("serverSecretKey: " + serverSecretKey);
+	console.log("ref", ref);
 
-	// const action = github.context.eventName;
-	// const packageName = github.context.repo.repo;
-	core.debug("Hello World!");
-	console.log("Hello Log!");
-	console.info("Hello Info!");
-	console.warn("Hello Warn!");
+	const updateServerUrl = core.getInput("update-server-url");
+	console.log("updateServerUrl", updateServerUrl);
+	const serverSecretKey = core.getInput("server-secret-key");
+	console.log("serverSecretKey", serverSecretKey);
+
+	const action = github.context.eventName;
+	console.log("action", action);
+	const packageName = github.context.repo.repo;
+	console.log("packageName", packageName);
+
 	return;
 } catch (error) {
-	console.log("Hello Catch Log!");
-	console.info("Hello Catch Info!");
-	console.warn("Hello Catch Warn!");
-	core.warning("Hello Catch!");
 	core.setFailed(error.message);
 	return;
 }
