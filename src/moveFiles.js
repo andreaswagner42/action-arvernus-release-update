@@ -4,7 +4,13 @@ const path = require("path");
 
 async function moveFiles(source, destination, name) {
 	try {
-		await io.mkdirP(`${destination}/${name}`);
+		if (!fs.existsSync(destination)) {
+			fs.mkdirSync(destination);
+		}
+
+		if (!fs.existsSync(`${destination}/${packageName}/`)) {
+			fs.mkdirSync(`${destination}/${packageName}/`);
+		}
 
 		rsync(
 			{

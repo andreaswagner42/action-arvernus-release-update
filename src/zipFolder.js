@@ -9,9 +9,7 @@ const path = require("path");
  */
 function zipFolder(source, destination, name) {
 	const archive = archiver("zip", { zlib: { level: 9 } });
-	const stream = fs.createWriteStream(
-		`${path.resolve(destination)}/${name}.zip`
-	);
+	const stream = fs.createWriteStream(`${destination}/${name}.zip`);
 
 	return new Promise((resolve, reject) => {
 		archive
