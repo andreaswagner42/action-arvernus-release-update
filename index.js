@@ -5,9 +5,10 @@ const deleteRelease = require("./deleteRelease");
 
 const action = async () => {
 	try {
+		core.debug(github);
 		const {
-			release: { name, body, prerelease, tag_name, published_at }
-		} = github.context.payload;
+			release: { tag_name }
+		} = github.context;
 		const updateServerUrl = core.getInput("update-server-url");
 		const serverSecretKey = core.getInput("server-secret-key");
 
