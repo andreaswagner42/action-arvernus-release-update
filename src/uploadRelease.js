@@ -7,9 +7,10 @@ async function uploadRelease(name, release, hostname, secret) {
 	try {
 		const url = `${hostname}/package/${name}/${release.tag_name}?secret_key=${secret}`;
 
+		const size = fs.statSync(release.file);
 		const file = fs.createReadStream(release.file);
 
-		console.log("File", file);
+		console.log("File Size", size);
 
 		const form = new FormData();
 		form.append("release_title", release.name);
