@@ -11,7 +11,7 @@ inputs:
   update-server-url:
     description: "URL of the Server the release will be uploaded to"
     required: false
-    default: "http://updates.arvernus.info"
+    default: "https://updates.arvernus.info"
   server-secret-key:
     description: "Secret key from the update server to accept uploads"
     required: true
