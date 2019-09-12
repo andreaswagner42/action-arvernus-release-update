@@ -19,7 +19,7 @@ function zipFolder(source, destination, name) {
 
 	return new Promise((resolve, reject) => {
 		archive
-			.directory(movedFolder, false)
+			.directory(source, false)
 			.on("error", error => reject(error))
 			.pipe(stream);
 
