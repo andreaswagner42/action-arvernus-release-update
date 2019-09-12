@@ -1,7 +1,6 @@
+const core = require("@actions/core");
 const fs = require("fs");
 const rsync = require("rsyncwrapper");
-
-const listFilesIn = require("./listFilesIn");
 
 async function moveFiles(source, destination, name) {
 	const destinationPath = `${destination}/${name}`;
@@ -12,10 +11,6 @@ async function moveFiles(source, destination, name) {
 	if (!fs.existsSync(destinationPath)) {
 		fs.mkdirSync(destinationPath);
 	}
-
-	listFilesIn(source);
-	listFilesIn(destination);
-	listFilesIn(destinationPath);
 
 	return new Promise((resolve, reject) => {
 		rsync(
@@ -59,9 +54,7 @@ async function moveFiles(source, destination, name) {
 				if (error) {
 					reject(error);
 				}
-				listFilesIn(source);
-				listFilesIn(destination);
-				listFilesIn(destinationPath);
+				core.debug(`Files moved successfully to ${destinationPath}.`);
 				resolve(destinationPath);
 			}
 		);

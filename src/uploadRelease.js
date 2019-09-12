@@ -30,6 +30,8 @@ async function uploadRelease(name, release, hostname, secret) {
 
 		const responseJson = await response.json();
 
+		core.debug(responseJson);
+
 		return Promise.resolve(responseJson);
 	} catch (error) {
 		return Promise.reject(error);

@@ -45,27 +45,27 @@ const action = async () => {
 
 				const octokit = new github.GitHub(githubToken);
 
-				const size = fs.statSync(zipPath).size;
+				const zipFileSize = fs.statSync(zipPath).size;
 
 				const githubReleaseResponse = await octokit.repos.getReleaseByTag({
 					...github.context.repo,
 					tag: release.tag_name
 				});
 
-				const uploadReleaseAssetResponse = await octokit.repos.uploadReleaseAsset(
-					{
-						headers: {
-							"content-type": "text/plain",
-							"content-length": size
-						},
-						url: githubReleaseResponse.data.upload_url,
-						name: `${packageName}.zip`,
-						file: fs.createReadStream(zipPath),
-						label: packageName
-					}
-				);
+				await octokit.repos.uploadReleaseAsset({
+					headers: {
+						"content-type": "text/plain",
+						"content-length": zipFileSize
+					},
+					url: githubReleaseResponse.data.upload_url,
+					name: `${packageName}.zip`,
+					file: fs.createReadStream(zipPath),
+					label: packageName
+				});
 
-				console.info("Add to release result:", uploadReleaseAssetResponse);
+				core.debug(
+					`Added the zip "${zipPath}" to the release ${release.tag_name} on GitHub.`
+				);
 
 				break;
 			case "unpublished":

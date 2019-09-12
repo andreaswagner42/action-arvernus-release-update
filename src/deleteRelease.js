@@ -9,8 +9,7 @@ async function deleteRelease(name, version, hostname, secret) {
 		});
 
 		if (!response.ok) {
-			console.error("error from fetch", response);
-			throw response;
+			throw await response.json();
 		}
 
 		const responseJson = await response.json();
