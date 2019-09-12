@@ -25,9 +25,9 @@ const action = async () => {
 
 				await moveFiles("./", releaseFolder, packageName);
 
-				await zipFolder(`./${releaseFolder}`, releaseFolder, packageName);
+				await zipFolder(releaseFolder, releaseFolder, packageName);
 
-				const zipPath = `./${releaseFolder}/${packageName}.zip`;
+				const zipPath = `${releaseFolder}/${packageName}.zip`;
 				release.file = zipPath;
 
 				const uploadResponse = await uploadRelease(
