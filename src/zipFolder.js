@@ -17,8 +17,20 @@ function zipFolder(source, destination, name) {
 	core.warning("Source Folder: " + source);
 	core.warning("Destination Folder: " + destination);
 	fs.readdir(source, (err, files) => {
-		core.startGroup("Files");
-		core.warning("Files:");
+		core.startGroup("Files in Source");
+		core.warning("Files in Source:");
+		if (err) {
+			throw new Error("Unable to scan directory: " + err);
+		}
+		files.forEach(file => {
+			// Do whatever you want to do with the file
+			console.log(file);
+		});
+		core.endGroup();
+	});
+	fs.readdir(process.cwd(), (err, files) => {
+		core.startGroup("Files in process.cwd()");
+		core.warning("Files in process.cwd():");
 		if (err) {
 			throw new Error("Unable to scan directory: " + err);
 		}
