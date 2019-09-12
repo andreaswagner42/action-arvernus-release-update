@@ -50,7 +50,7 @@ const action = async () => {
 					} has been ${action === "published" ? "published" : "updated"}.`
 				);
 
-				const octokit = github.GitHub(githubToken);
+				const octokit = new github.GitHub(githubToken);
 
 				const size = fs.statSync(process.env.GITHUB_WORKSPACE + "/" + zipPath)
 					.size;
