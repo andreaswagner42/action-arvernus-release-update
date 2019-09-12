@@ -1,0 +1,24 @@
+name: "Arvernus Release Package Update"
+description: "Deploy to the Arvernus Package Repository"
+author: "Arvernus GmbH"
+branding:
+  icon: "upload-cloud"
+  color: "green"
+inputs:
+  github-access-token:
+    description: "GitHub Access Token to move files and attach the Zip to the release"
+    reqired: true
+  update-server-url:
+    description: "URL of the Server the release will be uploaded to"
+    required: false
+    default: "https://updates.arvernus.info"
+  server-secret-key:
+    description: "Secret key from the update server to accept uploads"
+    required: true
+  package-type:
+    description: "Pass in wether it is a WordPress Theme, Plugin or MU-Plugin"
+    required: false,
+    default: "Theme"
+runs:
+  using: "node12"
+  main: "index.js"
