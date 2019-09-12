@@ -1,5 +1,6 @@
 const archiver = require("archiver");
 const fs = require("fs");
+const core = require("@actions/core");
 
 const listFilesIn = require("./listFilesIn");
 const checkFileExists = require("./checkFileExists");
@@ -12,10 +13,6 @@ function zipFolder(source, destination, name) {
 	const archive = archiver("zip");
 	const zipPath = `${destination}/${name}.zip`;
 	const stream = fs.createWriteStream(zipPath);
-	const movedFolder = `${source}/${name}`;
-
-	listFilesIn(source);
-	listFilesIn(movedFolder);
 
 	return new Promise((resolve, reject) => {
 		archive
@@ -25,9 +22,8 @@ function zipFolder(source, destination, name) {
 
 		stream.on("close", () => {
 			try {
-				// test wether zip exists
 				checkFileExists(zipPath);
-				console.log(`${zipPath} was successfully created`);
+				core.debug(`${zipPath} was successfully created`);
 				resolve(zipPath);
 			} catch (error) {
 				reject(error);
