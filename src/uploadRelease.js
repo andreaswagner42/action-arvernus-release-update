@@ -5,12 +5,13 @@ const path = require("path");
 
 async function uploadRelease(name, release, hostname, secret) {
 	try {
-		const url = `${hostname}/package/${name}/${release.tag_name}?secret_key=${secret}`;
+		const postReleaseUrl = `${hostname}/package/${name}/${release.tag_name}?secret_key=${secret}`;
 
-		const size = fs.statSync(release.file);
 		const file = fs.createReadStream(release.file);
 
-		console.log("File Size", size);
+		if (!file) {
+			throw new Error(`There is no file located at ${release.file}.`);
+		}
 
 		const form = new FormData();
 		form.append("release_title", release.name);
@@ -19,7 +20,10 @@ async function uploadRelease(name, release, hostname, secret) {
 		form.append("published_at", String(release.published_at));
 		form.append("file", file);
 
-		const response = await fetch(url, { method: "POST", body: form });
+		const response = await fetch(postReleaseUrl, {
+			method: "POST",
+			body: form
+		});
 
 		if (!response.ok) {
 			throw await response.json();

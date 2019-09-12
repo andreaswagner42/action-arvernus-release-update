@@ -2,9 +2,9 @@ const fetch = require("node-fetch");
 
 async function deleteRelease(name, version, hostname, secret) {
 	try {
-		const url = `${hostname}/package/${name}/${version}/delete?secret_key=${secret}`;
+		const postReleaseDeleteUrl = `${hostname}/package/${name}/${version}/delete?secret_key=${secret}`;
 
-		const response = await fetch(url, {
+		const response = await fetch(postReleaseDeleteUrl, {
 			method: "POST"
 		});
 
