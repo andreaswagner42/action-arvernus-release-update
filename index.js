@@ -23,8 +23,10 @@ const action = async () => {
 			case "edited":
 				const releaseFolder = "release";
 
+				console.log("Process", process.env);
+
 				const folderPath = await moveFiles(
-					path.resolve("."),
+					path.resolve(process.env.GITHUB_WORKSPACE, packageName),
 					releaseFolder,
 					packageName
 				);
@@ -61,7 +63,7 @@ const action = async () => {
 
 				break;
 			default:
-				throw new Error(
+				core.warning(
 					`This action was triggered using the "${action}" event which is not supported by this Action.`
 				);
 		}
