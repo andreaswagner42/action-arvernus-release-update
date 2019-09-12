@@ -16,7 +16,7 @@ function zipFolder(source, destination, name) {
 	core.warning("Current directory: " + process.cwd());
 	core.warning("Source Folder: " + source);
 	core.warning("Destination Folder: " + destination);
-	fs.readdir(directoryPath, (err, files) => {
+	fs.readdir(source, (err, files) => {
 		core.startGroup("Files");
 		core.warning("Files:");
 		if (err) {
