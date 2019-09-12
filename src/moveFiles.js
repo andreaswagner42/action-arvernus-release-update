@@ -1,6 +1,5 @@
 const fs = require("fs");
 const rsync = require("rsyncwrapper");
-const path = require("path");
 
 async function moveFiles(source, destination, name) {
 	try {
@@ -45,7 +44,8 @@ async function moveFiles(source, destination, name) {
 					`${name}`,
 					"phpcs.xml.dist",
 					".eslintignore",
-					".editorconfig"
+					".editorconfig",
+					"release"
 				]
 			},
 			function(error) {
@@ -56,7 +56,7 @@ async function moveFiles(source, destination, name) {
 			}
 		);
 
-		return Promise.resolve(path.resolve(destination, name));
+		return Promise.resolve(`${destination}/${name}`);
 	} catch (error) {
 		return Promise.reject(error);
 	}

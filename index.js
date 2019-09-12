@@ -21,14 +21,16 @@ const action = async () => {
 		switch (action) {
 			case "published":
 			case "edited":
+				const releaseFolder = "release";
+
 				const folderPath = await moveFiles(
 					path.resolve("."),
-					"dist",
+					releaseFolder,
 					packageName
 				);
 				console.log("Folder Path:", folderPath);
 
-				const zipPath = await zipFolder(folderPath, `dist`, packageName);
+				const zipPath = await zipFolder(folderPath, releaseFolder, packageName);
 				console.log("Zip Path", zipPath);
 
 				release.file = zipPath;

@@ -8,14 +8,8 @@ const path = require("path");
  * @returns {Promise}
  */
 function zipFolder(source, destination, name) {
-	const archive = archiver("zip", { zlib: { level: 9 } });
+	const archive = archiver("zip");
 	const stream = fs.createWriteStream(`${destination}/${name}.zip`);
-
-	fs.readdir(source, (err, files) => {
-		files.forEach(file => {
-			console.log(file);
-		});
-	});
 
 	return new Promise((resolve, reject) => {
 		archive
@@ -25,7 +19,7 @@ function zipFolder(source, destination, name) {
 
 		stream.on("close", () => {
 			console.log(`${destination} was successfully created`);
-			resolve(path.resolve(`${destination}/${name}.zip`));
+			resolve(`${destination}/${name}.zip`);
 		});
 		archive.finalize();
 	});
