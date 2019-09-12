@@ -11,7 +11,8 @@ const path = require("path");
  */
 function zipFolder(source, destination, name) {
 	const archive = archiver("zip");
-	const stream = fs.createWriteStream(`${destination}/${name}.zip`);
+	const filePath = `${destination}/${name}.zip`;
+	const stream = fs.createWriteStream(filePath);
 
 	fs.readdir(source, (error, files) => {
 		core.startGroup("Files in process.cwd()");
@@ -32,7 +33,6 @@ function zipFolder(source, destination, name) {
 			.pipe(stream);
 
 		stream.on("close", () => {
-			const filePath = `${destination}/${name}.zip`;
 			const file = path.existsSync(filePath);
 			if (!file) {
 				reject(new Error(`The File ${filePath} does not exixt.`));
