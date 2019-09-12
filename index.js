@@ -23,17 +23,19 @@ const action = async () => {
 			case "edited":
 				const releaseFolder = "release";
 
-				console.log("Process", process.env);
-
 				const folderPath = await moveFiles(
 					process.env.GITHUB_WORKSPACE,
 					releaseFolder,
 					packageName
 				);
 
-				const zipPath = await zipFolder(folderPath, releaseFolder, packageName);
+				const zipPath = await zipFolder(
+					process.env.GITHUB_WORKSPACE + "/" + folderPath,
+					releaseFolder,
+					packageName
+				);
 
-				release.file = zipPath;
+				release.file = process.env.GITHUB_WORKSPACE + "/" + zipPath;
 
 				const uploadResponse = await uploadRelease(
 					packageName,
@@ -42,11 +44,39 @@ const action = async () => {
 					serverSecretKey
 				);
 
-				console.log(
+				console.info(
 					`Version ${uploadResponse.version} of ${
 						uploadResponse.name
 					} has been ${action === "published" ? "published" : "updated"}.`
 				);
+
+				const octokit = github.GitHub(githubToken);
+
+				const size = fs.statSync(process.env.GITHUB_WORKSPACE + "/" + zipPath)
+					.size;
+
+				const githubReleaseResponse = await octokit.repos.getReleaseByTag({
+					...github.context.repo,
+					tag: release.tag_name
+				});
+
+				const uploadReleaseAssetResponse = await octokit.repos.uploadReleaseAsset(
+					{
+						headers: {
+							"content-type": "text/plain",
+							"content-length": size
+						},
+						url: githubReleaseResponse.data.upload_url,
+						name: `${packageName}.zip`,
+						file: fs.createReadStream(
+							process.env.GITHUB_WORKSPACE + "/" + zipPath
+						),
+						label: packageName
+					}
+				);
+
+				console.info("Add to release result:", uploadReleaseAssetResponse);
+
 				break;
 			case "unpublished":
 			case "deleted":
