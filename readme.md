@@ -6,6 +6,25 @@ This Action is build to be trigered upon new releases. Once a new Release is cre
 
 It's reccomended to run NPM scripts before it, in order to build and test the application before it gets shipped.
 
+### Example of how to use this action:
+```yml
+on: release
+name: Publish Release
+jobs:
+  wordPressPackageDeploy:
+    name: WordPress Package Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: WordPress Plugin Deploy
+        uses: Arvernus/action-arvernus-release-update@master
+        with:
+          update-server-url: "https://custom-server.com"
+          package-type: "Plugin"
+          server-secret-key: ${{ secrets.SERVER_SECRET_KEY }}
+          github-access-token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+```
+
 ## 📎 Inputs
 
 ### `github-access-token`
