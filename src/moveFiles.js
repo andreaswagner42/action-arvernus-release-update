@@ -4,20 +4,20 @@ const rsync = require("rsyncwrapper");
 const listFilesIn = require("./listFilesIn");
 
 async function moveFiles(source, destination, name) {
-	try {
-		const destinationPath = `${destination}/${name}`;
-		if (!fs.existsSync(destination)) {
-			fs.mkdirSync(destination);
-		}
+	const destinationPath = `${destination}/${name}`;
+	if (!fs.existsSync(destination)) {
+		fs.mkdirSync(destination);
+	}
 
-		if (!fs.existsSync(destinationPath)) {
-			fs.mkdirSync(destinationPath);
-		}
+	if (!fs.existsSync(destinationPath)) {
+		fs.mkdirSync(destinationPath);
+	}
 
-		listFilesIn(source);
-		listFilesIn(destination);
-		listFilesIn(destinationPath);
+	listFilesIn(source);
+	listFilesIn(destination);
+	listFilesIn(destinationPath);
 
+	return new Promise((resolve, reject) => {
 		rsync(
 			{
 				src: source,
@@ -57,19 +57,15 @@ async function moveFiles(source, destination, name) {
 			},
 			function(error) {
 				if (error) {
-					throw `Moving the files resoved in an Error: ${error}`;
+					reject(error);
 				}
 				listFilesIn(source);
 				listFilesIn(destination);
 				listFilesIn(destinationPath);
-				return destinationPath;
+				resolve(destinationPath);
 			}
 		);
-
-		return Promise.resolve(destinationPath);
-	} catch (error) {
-		return Promise.reject(error);
-	}
+	});
 }
 
 module.exports = moveFiles;
