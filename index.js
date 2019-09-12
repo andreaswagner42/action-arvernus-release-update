@@ -26,7 +26,7 @@ const action = async () => {
 				console.log("Process", process.env);
 
 				const folderPath = await moveFiles(
-					path.resolve(process.env.GITHUB_WORKSPACE, packageName),
+					process.env.GITHUB_WORKSPACE,
 					releaseFolder,
 					packageName
 				);
