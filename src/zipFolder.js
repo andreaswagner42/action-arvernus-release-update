@@ -13,9 +13,8 @@ function zipFolder(source, destination, name) {
 	const archive = archiver("zip");
 	const stream = fs.createWriteStream(`${destination}/${name}.zip`);
 
-	fs.readdir(path.join(process.cwd(), destination), (error, files) => {
+	fs.readdir(source, (error, files) => {
 		core.startGroup("Files in process.cwd()");
-		core.warning("Files in process.cwd():");
 		if (error) {
 			throw new Error("Unable to scan directory: " + error);
 		}
@@ -27,8 +26,8 @@ function zipFolder(source, destination, name) {
 	});
 
 	return new Promise((resolve, reject) => {
-		archive
-			.directory(path.join(process.cwd(), "destination"), false)
+		archives
+			.directory(path.join(source, name), false)
 			.on("error", error => reject(error))
 			.pipe(stream);
 

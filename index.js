@@ -21,21 +21,13 @@ const action = async () => {
 		switch (action) {
 			case "published":
 			case "edited":
-				const releaseFolder = "release";
+				const releaseFolder = "./release";
 
-				const folderPath = await moveFiles(
-					process.env.GITHUB_WORKSPACE,
-					releaseFolder,
-					packageName
-				);
+				await moveFiles("./", releaseFolder, packageName);
 
-				const zipPath = await zipFolder(
-					process.env.GITHUB_WORKSPACE + "/" + folderPath,
-					releaseFolder,
-					packageName
-				);
+				await zipFolder(`./${releaseFolder}`, releaseFolder, packageName);
 
-				release.file = process.env.GITHUB_WORKSPACE + "/" + zipPath;
+				release.file = `./${releaseFolder}/${packageName}.zip`;
 
 				const uploadResponse = await uploadRelease(
 					packageName,
@@ -52,8 +44,7 @@ const action = async () => {
 
 				const octokit = new github.GitHub(githubToken);
 
-				const size = fs.statSync(process.env.GITHUB_WORKSPACE + "/" + zipPath)
-					.size;
+				const size = fs.statSync(zipPath).size;
 
 				const githubReleaseResponse = await octokit.repos.getReleaseByTag({
 					...github.context.repo,
@@ -68,9 +59,7 @@ const action = async () => {
 						},
 						url: githubReleaseResponse.data.upload_url,
 						name: `${packageName}.zip`,
-						file: fs.createReadStream(
-							process.env.GITHUB_WORKSPACE + "/" + zipPath
-						),
+						file: fs.createReadStream(zipPath),
 						label: packageName
 					}
 				);
