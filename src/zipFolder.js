@@ -1,3 +1,5 @@
+const core = require("@actions/core");
+
 const archiver = require("archiver");
 const fs = require("fs");
 const path = require("path");
@@ -10,6 +12,22 @@ const path = require("path");
 function zipFolder(source, destination, name) {
 	const archive = archiver("zip");
 	const stream = fs.createWriteStream(`${destination}/${name}.zip`);
+
+	core.warning("Current directory: " + process.cwd());
+	core.warning("Source Folder: " + source);
+	core.warning("Destination Folder: " + destination);
+	fs.readdir(directoryPath, (err, files) => {
+		core.startGroup("Files");
+		core.warning("Files:");
+		if (err) {
+			throw new Error("Unable to scan directory: " + err);
+		}
+		files.forEach(file => {
+			// Do whatever you want to do with the file
+			console.log(file);
+		});
+		core.endGroup();
+	});
 
 	return new Promise((resolve, reject) => {
 		archive
