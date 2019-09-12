@@ -13,7 +13,7 @@ function zipFolder(source, destination, name) {
 	const archive = archiver("zip");
 	const zipPath = `${destination}/${name}.zip`;
 	const stream = fs.createWriteStream(zipPath);
-	const movedFolder = path.join(source, name);
+	const movedFolder = `${source}/${name}`;
 
 	listFilesIn(source);
 	listFilesIn(movedFolder);
