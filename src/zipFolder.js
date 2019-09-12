@@ -26,7 +26,7 @@ function zipFolder(source, destination, name) {
 	});
 
 	return new Promise((resolve, reject) => {
-		archives
+		archive
 			.directory(path.join(source, name), false)
 			.on("error", error => reject(error))
 			.pipe(stream);
