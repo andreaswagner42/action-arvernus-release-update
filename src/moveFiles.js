@@ -1,20 +1,27 @@
 const fs = require("fs");
 const rsync = require("rsyncwrapper");
 
+const listFilesIn = require("./listFilesIn");
+
 async function moveFiles(source, destination, name) {
 	try {
+		const destinationPath = `${destination}/${name}`;
 		if (!fs.existsSync(destination)) {
 			fs.mkdirSync(destination);
 		}
 
-		if (!fs.existsSync(`${destination}/${name}/`)) {
-			fs.mkdirSync(`${destination}/${name}/`);
+		if (!fs.existsSync(destinationPath)) {
+			fs.mkdirSync(destinationPath);
 		}
+
+		listFilesIn(source);
+		listFilesIn(destination);
+		listFilesIn(destinationPath);
 
 		rsync(
 			{
 				src: source,
-				dest: `${destination}/${name}/`,
+				dest: destinationPath,
 				recursive: true,
 				deleteAll: true,
 				exclude: [
@@ -52,11 +59,14 @@ async function moveFiles(source, destination, name) {
 				if (error) {
 					throw `Moving the files resoved in an Error: ${error}`;
 				}
-				return;
+				listFilesIn(source);
+				listFilesIn(destination);
+				listFilesIn(destinationPath);
+				return destinationPath;
 			}
 		);
 
-		return Promise.resolve(`${destination}/${name}`);
+		return Promise.resolve(destinationPath);
 	} catch (error) {
 		return Promise.reject(error);
 	}

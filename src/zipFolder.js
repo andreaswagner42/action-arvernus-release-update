@@ -1,9 +1,8 @@
 const archiver = require("archiver");
 const fs = require("fs");
-const path = require("path");
 
 const listFilesIn = require("./listFilesIn");
-
+const checkFileExists = require("./checkFileExists");
 /**
  * @param {String} source
  * @param {String} destination
@@ -27,7 +26,7 @@ function zipFolder(source, destination, name) {
 		stream.on("close", () => {
 			try {
 				// test wether zip exists
-				fs.statSync(zipPath);
+				checkFileExists(zipPath);
 				console.log(`${zipPath} was successfully created`);
 				resolve(zipPath);
 			} catch (error) {
