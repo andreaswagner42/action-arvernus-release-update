@@ -33,12 +33,14 @@ function zipFolder(source, destination, name) {
 			.pipe(stream);
 
 		stream.on("close", () => {
-			const file = path.existsSync(zipPath);
-			if (!file) {
-				reject(new Error(`The File ${zipPath} does not exixt.`));
+			try {
+				// test wether zip exists
+				fs.statSync(zipPath);
+				console.log(`${zipPath} was successfully created`);
+				resolve(zipPath);
+			} catch (error) {
+				reject(error);
 			}
-			console.log(`${zipPath} was successfully created`);
-			resolve(zipPath);
 		});
 		archive.finalize();
 	});
