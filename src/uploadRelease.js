@@ -1,6 +1,7 @@
 const FormData = require("form-data");
 const fs = require("fs");
 const fetch = require("node-fetch");
+const core = require("@actions/core");
 
 async function uploadRelease(name, release, hostname, secret) {
 	try {
