@@ -11,7 +11,7 @@ It's reccomended to run NPM scripts before it, in order to build and test the ap
 on:
   release:
     types:
-      [published, edited, published, deleted]
+      [published, edited, unpublished, deleted]
 name: Publish Release
 jobs:
   wordPressPackageDeploy:
