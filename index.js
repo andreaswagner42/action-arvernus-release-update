@@ -31,7 +31,7 @@ const action = async () => {
 
 				console.info(`File ziped to ./${packageName}.zip successfully.`);
 
-				const zipPath = `./${releaseFolder}/${packageName}.zip`;
+				const zipPath = `./${packageName}.zip`;
 				release.file = zipPath;
 
 				const uploadResponse = await uploadRelease(
