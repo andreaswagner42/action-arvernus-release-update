@@ -8,7 +8,10 @@ It's reccomended to run NPM scripts before it, in order to build and test the ap
 
 ### Example of how to use this action:
 ```yml
-on: release
+on:
+  release:
+    types:
+      - created
 name: Publish Release
 jobs:
   wordPressPackageDeploy:
