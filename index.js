@@ -27,9 +27,9 @@ const action = async () => {
 
 				console.info(`File moved to ./${releaseFolder}/${packageName} successfully.`);
 
-				await zipFolder(releaseFolder, releaseFolder, packageName);
+				await zipFolder(releaseFolder, './', packageName);
 
-				console.info(`File ziped to ./${releaseFolder}/${packageName}.zip successfully.`);
+				console.info(`File ziped to ./${packageName}.zip successfully.`);
 
 				const zipPath = `./${releaseFolder}/${packageName}.zip`;
 				release.file = zipPath;
