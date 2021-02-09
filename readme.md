@@ -1,6 +1,6 @@
 # 📦 Github Action to Deploy Releases to the Arvernus Update Server
 
-This Action is build to be trigered upon new releases. Once a new Release is created, the Action will take the master branch at the state of the last tagged release, takes all the code needed for production and moves into a new folder. This folder then gets compressed into a zip archive. Upon completion the zip file and some metadata like the version number will be send to the arvernus update server via a POST request.
+This Action is build to be trigered upon new releases. Once a new Release is created, the Action will take the master branch at the state of the last tagged release, takes all the code needed for production and moves into a new folder. This folder then gets compressed into a zip archive. Upon completion the zip file and some metadata like the version number will be send to the arvernus update server via a POST request. Alernatively if the input package-file-name is given, then this file is uploaded together with the metadata to the arvernus update server.
 
 ## ✨ Reccomended setup
 
