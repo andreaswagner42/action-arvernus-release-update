@@ -14,48 +14,40 @@ const action = async () => {
 		const serverSecretKey = core.getInput("server-secret-key");
 		const updateServerUrl = core.getInput("update-server-url");
 		const packageType = core.getInput("package-type");
+		const packageFileName = core.getInput("package-file-name");
 		const action = github.context.payload.action;
 		const packageName = github.context.repo.repo;
 		const { release } = github.context.payload;
-
 		switch (action) {
 			case "published":
 			case "edited":
-				const releaseFolder = "./release";
-
-				await moveFiles("./", releaseFolder, packageName);
-
-				console.info(`File moved to ./${releaseFolder}/${packageName} successfully.`);
-
-				await zipFolder(releaseFolder, './', packageName);
-
-				console.info(`File ziped to ./${packageName}.zip successfully.`);
-
-				const zipPath = `./${packageName}.zip`;
-				release.file = zipPath;
-
+				if (packageFileName == "") {
+					const releaseFolder = "./release";
+					await moveFiles("./", releaseFolder, packageName);
+					console.info(`File moved to ./${releaseFolder}/${packageName} successfully.`);
+					await zipFolder(releaseFolder, './', packageName);
+					console.info(`File ziped to ./${packageName}.zip successfully.`);
+					const zipPath = `./${packageName}.zip`;
+					release.file = zipPath;
+				} else {
+					const zipPath = `./${packageName}.zip`;
+					await moveFiles(packageFileName, releaseFolder, packageName);
+					console.info(`File renamed to ${zipPath} successfully.`);
+					release.file = zipPath;
+				}
 				const uploadResponse = await uploadRelease(
 					packageName,
 					release,
 					updateServerUrl,
 					serverSecretKey
 				);
-
-				console.info(
-					`Version ${uploadResponse.version} of ${
-						uploadResponse.name
-					} has been ${action === "published" ? "published" : "updated"}.`
-				);
-
+				console.info(`Version ${uploadResponse.version} of ${uploadResponse.name} has been ${action === "published" ? "published" : "updated"}.`);
 				const octokit = new github.GitHub(githubToken);
-
 				const zipFileSize = fs.statSync(zipPath).size;
-
 				const githubReleaseResponse = await octokit.repos.getReleaseByTag({
 					...github.context.repo,
 					tag: release.tag_name
 				});
-
 				await octokit.repos.uploadReleaseAsset({
 					headers: {
 						"content-type": "text/plain",
@@ -66,11 +58,7 @@ const action = async () => {
 					file: fs.createReadStream(zipPath),
 					label: packageName
 				});
-
-				core.debug(
-					`Added the zip "${zipPath}" to the release ${release.tag_name} on GitHub.`
-				);
-
+				core.debug(`Added the zip "${zipPath}" to the release ${release.tag_name} on GitHub.`);
 				break;
 			case "unpublished":
 			case "deleted":
@@ -80,16 +68,10 @@ const action = async () => {
 					updateServerUrl,
 					serverSecretKey
 				);
-
-				console.info(
-					`Version ${deleteResponse.version} of the Package ${deleteResponse.name} has successfully been deleted.`
-				);
-
+				console.info(`Version ${deleteResponse.version} of the Package ${deleteResponse.name} has successfully been deleted.`);
 				break;
 			default:
-				core.warning(
-					`This action was triggered using the "${action}" event which is not supported by this Action.`
-				);
+				core.warning(`This action was triggered using the "${action}" event which is not supported by this Action.`);
 		}
 		return "Success";
 	} catch (error) {
