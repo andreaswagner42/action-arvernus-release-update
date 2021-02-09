@@ -53,4 +53,4 @@ Pass in wether it is a WordPress Theme, Plugin or MU-Plugin
 
 ### `package-file-name`
 The file-name of the release package (if not given use the built-in packaging)
-> ** `optional` **
+> **`optional`**
