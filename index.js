@@ -1,9 +1,8 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
+const {promisify} = require("util");
 const fs = require("fs");
-const util = require('util');
-const mv = require('mv');
-const mvPromise = util.promisify(mv);
+const mv = promisify(fs.rename);
 const path = require("path");
 const zipFolder = require("./src/zipFolder");
 
