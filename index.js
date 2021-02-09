@@ -24,6 +24,7 @@ const action = async () => {
 				if (packageFileName == "") {
 					const releaseFolder = "./release";
 					await moveFiles("./", releaseFolder, packageName);
+					filesystemobject.MoveFile(source, destination);
 					console.info(`File moved to ./${releaseFolder}/${packageName} successfully.`);
 					await zipFolder(releaseFolder, './', packageName);
 					console.info(`File ziped to ./${packageName}.zip successfully.`);
@@ -31,7 +32,7 @@ const action = async () => {
 					release.file = zipPath;
 				} else {
 					const zipPath = `./${packageName}.zip`;
-					await moveFiles(packageFileName, releaseFolder, packageName);
+					await fs.rename(packageFileName, zipPath);
 					console.info(`File renamed to ${zipPath} successfully.`);
 					release.file = zipPath;
 				}
