@@ -17,8 +17,11 @@ inputs:
     required: true
   package-type:
     description: "Pass in wether it is a WordPress Theme, Plugin or MU-Plugin"
-    required: false,
+    required: false
     default: "Theme"
+  package-file-name:
+    description: "Name of the release package (if not given use built-in packaging)"
+    required: false
 runs:
   using: "node12"
   main: "index.js"
