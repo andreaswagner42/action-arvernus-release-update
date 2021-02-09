@@ -32,7 +32,7 @@ const action = async () => {
 					release.file = zipPath;
 				} else {
 					const zipPath = `./${packageName}.zip`;
-					await fs.rename(packageFileName, zipPath);
+					await mv(packageFileName, zipPath,);
 					console.info(`File renamed to ${zipPath} successfully.`);
 					release.file = zipPath;
 				}
