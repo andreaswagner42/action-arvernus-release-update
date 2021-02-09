@@ -20,7 +20,7 @@ inputs:
     required: false
     default: "Theme"
   package-file-name:
-    description: "Name of the release package (if not given the built-in packaging takes place)
+    description: "Name of the release package (if not given the built-in packaging takes place)"
     required: false
 runs:
   using: "node12"
