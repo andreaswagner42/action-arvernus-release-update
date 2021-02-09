@@ -1,6 +1,6 @@
 # 📦 Github Action to Deploy Releases to the Arvernus Update Server
 
-This Action is build to be trigered upon new releases. Once a new Release is created, the Action will take the master branch at the state of the last tagged release, takes all the code needed for production and moves into a new folder. This folder then gets compressed into a zip archive. Upon completion the zip file and some metadata like the version number will be send to the arvernus update server via a POST request.
+This Action is build to be trigered upon new releases. Once a new Release is created, the Action will take the master branch at the state of the last tagged release, takes all the code needed for production and moves into a new folder. This folder then gets compressed into a zip archive. Upon completion the zip file and some metadata like the version number will be send to the arvernus update server via a POST request. If package-file-name is given this file will be used as package and uploaded to the arvernus update server.
 
 ## ✨ Reccomended setup
 
@@ -50,3 +50,7 @@ Pass in wether it is a WordPress Theme, Plugin or MU-Plugin
 > **`optional`**
 > 
 > **Default:** `Theme`
+
+### `package-file-name`
+The file-name of the release package (if not given use the built-in packaging)
+> ** `optional` **
