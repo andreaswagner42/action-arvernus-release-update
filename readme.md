@@ -55,8 +55,8 @@ Pass in wether it is a WordPress Theme, Plugin or MU-Plugin
 The file-name of the release package (if not given use the built-in packaging)
 > **`optional`**
 
-### `package-extention`
-The file extention of the release package file (only used if package-file-name is specified)
+### `package-file-extension`
+The file extension of the release package file (only used if package-file-name is specified)
 > **`optional`**
 >
 > **Default:** `zip`
