@@ -59,4 +59,4 @@ The file-name of the release package (if not given use the built-in packaging)
 The file extention of the release package file (only used if package-file-name is specified)
 > **`optional`**
 >
-> **Default:** `.zip`
+> **Default:** `zip`
