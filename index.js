@@ -41,6 +41,7 @@ const action = async () => {
 				}
 				const uploadResponse = await uploadRelease(
 					packageName,
+					packageExtension,
 					release,
 					updateServerUrl,
 					serverSecretKey
