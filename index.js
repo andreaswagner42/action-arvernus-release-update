@@ -17,7 +17,7 @@ const action = async () => {
 		const updateServerUrl = core.getInput("update-server-url");
 		const packageType = core.getInput("package-type");
 		const packageFileName = core.getInput("package-file-name");
-		const packageExtention = core.getInput("package-extention");
+		const packageExtension = core.getInput("package-file-extension");
 		const action = github.context.payload.action;
 		const packageName = github.context.repo.repo;
 		const { release } = github.context.payload;
@@ -34,7 +34,7 @@ const action = async () => {
 					const PkgPath = `./${packageName}.zip`;
 					release.file = PkgPath;
 				} else {
-					const PkgPath = `./${packageName}.${packageExtention}`;
+					const PkgPath = `./${packageName}.${packageExtension}`;
 					await mv(packageFileName, PkgPath,);
 					console.info(`File renamed to ${PkgPath} successfully.`);
 					release.file = PkgPath;
@@ -58,7 +58,7 @@ const action = async () => {
 						"content-length": PkgFileSize
 					},
 					url: githubReleaseResponse.data.upload_url,
-					name: `${packageName}.${packageExtention}`,
+					name: `${packageName}.${packageExtension}`,
 					file: fs.createReadStream(release.file),
 					label: packageName
 				});
