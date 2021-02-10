@@ -33,15 +33,16 @@ const action = async () => {
 					console.info(`File ziped to ./${packageName}.zip successfully.`);
 					const PkgPath = `./${packageName}.zip`;
 					release.file = PkgPath;
+					release.extension = packageExtension;
 				} else {
 					const PkgPath = `./${packageName}.${packageExtension}`;
 					await mv(packageFileName, PkgPath,);
 					console.info(`File renamed to ${PkgPath} successfully.`);
 					release.file = PkgPath;
+					release.extension = packageExtension;
 				}
 				const uploadResponse = await uploadRelease(
 					packageName,
-					packageExtension,
 					release,
 					updateServerUrl,
 					serverSecretKey
