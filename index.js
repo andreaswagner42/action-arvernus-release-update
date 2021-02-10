@@ -56,7 +56,7 @@ const action = async () => {
 				});
 				await octokit.repos.uploadReleaseAsset({
 					headers: {
-						"content-type": "text/plain",
+						"content-type": (release.extension === "zip") ? "applicaton/zip" : "application/octet-stream",
 						"content-length": PkgFileSize
 					},
 					url: githubReleaseResponse.data.upload_url,
