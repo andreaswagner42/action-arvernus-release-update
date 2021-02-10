@@ -62,7 +62,7 @@ const action = async () => {
 					url: githubReleaseResponse.data.upload_url,
 					name: `${packageName}.${packageExtension}`,
 					file: fs.createReadStream(release.file),
-					label: packageName
+					label: `${packageName}.${packageExtension}`
 				});
 				core.debug(`Added the package "${release.file}" to the release ${release.tag_name} on GitHub.`);
 				break;
