@@ -19,6 +19,7 @@ async function uploadRelease(name, release, hostname, secret) {
 		form.append("prerelease", String(release.prerelease));
 		form.append("published_at", String(release.published_at));
 		form.append("file", file);
+		form.append("extension", release.extension);
 
 		const response = await fetch(postReleaseUrl, {
 			method: "POST",
