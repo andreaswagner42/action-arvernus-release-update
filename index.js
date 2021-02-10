@@ -17,6 +17,7 @@ const action = async () => {
 		const updateServerUrl = core.getInput("update-server-url");
 		const packageType = core.getInput("package-type");
 		const packageFileName = core.getInput("package-file-name");
+		const packageExtention = core.getInput("package-extention");
 		const action = github.context.payload.action;
 		const packageName = github.context.repo.repo;
 		const { release } = github.context.payload;
@@ -30,23 +31,24 @@ const action = async () => {
 					console.info(`File moved to ./${releaseFolder}/${packageName} successfully.`);
 					await zipFolder(releaseFolder, './', packageName);
 					console.info(`File ziped to ./${packageName}.zip successfully.`);
-					const zipPath = `./${packageName}.zip`;
-					release.file = zipPath;
+					const PkgPath = `./${packageName}.zip`;
+					release.file = PkgPath;
 				} else {
-					const zipPath = `./${packageName}.zip`;
-					await mv(packageFileName, zipPath,);
-					console.info(`File renamed to ${zipPath} successfully.`);
-					release.file = zipPath;
+					const PkgPath = `./${packageName}.${packageExtention}`;
+					await mv(packageFileName, PkgPath,);
+					console.info(`File renamed to ${PkgPath} successfully.`);
+					release.file = PkgPath;
 				}
 				const uploadResponse = await uploadRelease(
 					packageName,
+					packageExtention,
 					release,
 					updateServerUrl,
 					serverSecretKey
 				);
 				console.info(`Version ${uploadResponse.version} of ${uploadResponse.name} has been ${action === "published" ? "published" : "updated"}.`);
 				const octokit = new github.GitHub(githubToken);
-				const zipFileSize = fs.statSync(zipPath).size;
+				const PkgFileSize = fs.statSync(release.file).size;
 				const githubReleaseResponse = await octokit.repos.getReleaseByTag({
 					...github.context.repo,
 					tag: release.tag_name
@@ -54,14 +56,14 @@ const action = async () => {
 				await octokit.repos.uploadReleaseAsset({
 					headers: {
 						"content-type": "text/plain",
-						"content-length": zipFileSize
+						"content-length": PkgFileSize
 					},
 					url: githubReleaseResponse.data.upload_url,
-					name: `${packageName}.zip`,
-					file: fs.createReadStream(zipPath),
+					name: `${packageName}.${packageExtention}`,
+					file: fs.createReadStream(release.file),
 					label: packageName
 				});
-				core.debug(`Added the zip "${zipPath}" to the release ${release.tag_name} on GitHub.`);
+				core.debug(`Added the package "${release.file}" to the release ${release.tag_name} on GitHub.`);
 				break;
 			case "unpublished":
 			case "deleted":
