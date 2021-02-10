@@ -22,6 +22,10 @@ inputs:
   package-file-name:
     description: "Name of the release package (if not given the built-in packaging takes place)"
     required: false
+  package-extention:
+    description: "The file extention of the release package file (only used if package-file-name is specified)"
+    required: false
+    default: "zip"
 runs:
   using: "node12"
   main: "index.js"
