@@ -39,7 +39,7 @@ const action = async () => {
 					release.file = zipPath;
 				}
 				const uploadResponse = await uploadRelease(
-					packageName,
+					"aidu",
 					release,
 					updateServerUrl,
 					serverSecretKey
